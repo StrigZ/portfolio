@@ -1,36 +1,11 @@
-import { withPayload } from '@payloadcms/next/withPayload'
+import { withPayload } from "@payloadcms/next/withPayload";
+/**
+ * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
+ * for Docker builds.
+ */
+import "./src/env.js";
 
-import redirects from './redirects.js'
+/** @type {import("next").NextConfig} */
+const config = {};
 
-const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : undefined || process.env.__NEXT_PRIVATE_ORIGIN || 'http://localhost:3000'
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  images: {
-    remotePatterns: [
-      ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
-        const url = new URL(item)
-
-        return {
-          hostname: url.hostname,
-          protocol: url.protocol.replace(':', ''),
-        }
-      }),
-    ],
-  },
-  webpack: (webpackConfig) => {
-    webpackConfig.resolve.extensionAlias = {
-      '.cjs': ['.cts', '.cjs'],
-      '.js': ['.ts', '.tsx', '.js', '.jsx'],
-      '.mjs': ['.mts', '.mjs'],
-    }
-
-    return webpackConfig
-  },
-  reactStrictMode: true,
-  redirects,
-}
-
-export default withPayload(nextConfig, { devBundleServerPackages: false })
+export default withPayload(config);
