@@ -5,7 +5,7 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 import { Media } from "./collections/Media";
-import { Projects } from "./collections/Projects";
+import { Projects } from "./collections/projects/config";
 import { Users } from "./collections/Users";
 
 const filename = fileURLToPath(import.meta.url);
