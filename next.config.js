@@ -4,8 +4,9 @@ import { withPayload } from "@payloadcms/next/withPayload";
  * for Docker builds.
  */
 import "./src/env.js";
+import withPlaiceholder from "@plaiceholder/next";
 
 /** @type {import("next").NextConfig} */
 const config = {};
 
-export default withPayload(config);
+export default withPlaiceholder(withPayload(config));
