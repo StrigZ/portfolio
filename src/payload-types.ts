@@ -174,7 +174,7 @@ export interface Project {
   demo_url: string;
   technologies?:
     | {
-        technology?: string | null;
+        name?: string | null;
         icon: number | Media;
         id?: string | null;
       }[]
@@ -314,7 +314,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   technologies?:
     | T
     | {
-        technology?: T;
+        name?: T;
         icon?: T;
         id?: T;
       };
