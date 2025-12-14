@@ -1,3 +1,5 @@
+"use server";
+
 import { getPayloadClient } from "~/lib/payload/client";
 
 export async function getProjects() {
@@ -5,13 +7,6 @@ export async function getProjects() {
 	try {
 		const { docs: projects } = await payloadClient.find({
 			collection: "projects",
-			select: {
-				title: true,
-				demo_url: true,
-				source_url: true,
-				technologies: true,
-				featuredImage: true,
-			},
 		});
 		return projects ?? [];
 	} catch (error) {
