@@ -1,13 +1,10 @@
 "use client";
 
 import { useMemo, useRef } from "react";
-import {
-	Carousel,
-	type CarouselItem,
-	type CarouselRef,
-} from "react-round-carousel";
+
 import type { Project } from "~/payload-types";
 import ProjectsCarouselItem from "./ProjectsCarouselItem";
+import Carousel, { type CarouselItem, type CarouselRef } from "./ui/Carousel";
 
 type Props = { projects: Project[] };
 export default function ProjectsCarousel({ projects }: Props) {
@@ -33,7 +30,7 @@ export default function ProjectsCarousel({ projects }: Props) {
 	return (
 		<Carousel
 			items={carouselItems}
-			itemWidth={444}
+			itemWidth={450}
 			ref={carouselRef}
 			showControls={false}
 			slideOnClick
