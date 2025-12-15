@@ -1,3 +1,4 @@
+import "react-round-carousel/src/index.css";
 import "./_styles/globals.css";
 
 import type { Metadata } from "next";
