@@ -4,7 +4,7 @@ import { useMemo, useRef } from "react";
 
 import type { Project } from "~/payload-types";
 import ProjectsCarouselItem from "./ProjectsCarouselItem";
-import Carousel, { type CarouselItem, type CarouselRef } from "./ui/Carousel";
+import Carousel, { type CarouselItem, type CarouselRef } from "./ui/carousel";
 
 type Props = { projects: Project[] };
 export default function ProjectsCarousel({ projects }: Props) {
