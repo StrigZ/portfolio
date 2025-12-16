@@ -78,6 +78,7 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 
 		const ref = useRef<HTMLDivElement>(null);
 		const [selectedIndex, setSelectedIndex] = useState(0);
+		const [rotationIndex, setRotationIndex] = useState(0);
 
 		const getSlideStyle = useCallback(
 			(index: number): CSSProperties => {
@@ -98,13 +99,18 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 			[len, radius, theta],
 		);
 
+		const normalizeIndex = useCallback(
+			(index: number) => ((index % len) + len) % len,
+			[len],
+		);
+
 		const getItemStyle = useCallback((): CSSProperties => {
-			const angle = theta * selectedIndex * -1;
+			const angle = theta * rotationIndex * -1;
 
 			return {
-				transform: `translateZ(${-1 * radius}px) rotateY(${angle}deg)`,
+				transform: `translateZ(${-radius}px) rotateY(${angle}deg)`,
 			};
-		}, [radius, selectedIndex, theta]);
+		}, [radius, rotationIndex, theta]);
 
 		const getClassName = useCallback(
 			(parts: string | string[]) =>
@@ -114,15 +120,15 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 			[classNamePrefix],
 		);
 
-		const prev = useCallback(
-			() => setSelectedIndex(selectedIndex - 1),
-			[selectedIndex],
-		);
+		const next = useCallback(() => {
+			setRotationIndex((r) => r + 1);
+			setSelectedIndex((i) => normalizeIndex(i + 1));
+		}, [normalizeIndex]);
 
-		const next = useCallback(
-			() => setSelectedIndex(selectedIndex + 1),
-			[selectedIndex],
-		);
+		const prev = useCallback(() => {
+			setRotationIndex((r) => r - 1);
+			setSelectedIndex((i) => normalizeIndex(i - 1));
+		}, [normalizeIndex]);
 
 		useEffect(() => {
 			const area = ref?.current;
@@ -153,26 +159,49 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 		return (
 			<>
 				<div className={cn(getClassName(""), className)} ref={ref}>
-					<div className={getClassName("__container")} style={getItemStyle()}>
+					<ul className={getClassName("__container")} style={getItemStyle()}>
 						{data.map((item: DecoratedCarouselItem, index: number) => (
-							<button
-								className={getClassName("__slide")}
+							// biome-ignore lint/a11y/useKeyWithClickEvents: I don't see a way to implement this logic with keyboard
+							<li
+								className={cn(getClassName("__slide"), {
+									"cursor-pointer": index !== selectedIndex,
+								})}
 								key={item.id}
 								onClick={() => {
 									item.onClick?.();
-									slideOnClick && setSelectedIndex?.(index);
+
+									if (!slideOnClick) return;
+
+									const diff = index - selectedIndex;
+
+									const shortest =
+										Math.abs(diff) > len / 2
+											? diff > 0
+												? diff - len
+												: diff + len
+											: diff;
+
+									setRotationIndex((r) => r + shortest);
+									setSelectedIndex(index);
 								}}
 								style={getSlideStyle(index)}
-								type="button"
 							>
 								<Image alt={item.alt ?? ""} fill src={item.image} />
 
-								<div className={getClassName("__slide-overlay")}>
+								<div
+									className={cn(getClassName("__slide-overlay"), {
+										"pointer-events-none **:overflow-hidden": ![
+											normalizeIndex(selectedIndex - 1),
+											selectedIndex,
+											normalizeIndex(selectedIndex + 1),
+										].includes(index),
+									})}
+								>
 									{item.content}
 								</div>
-							</button>
+							</li>
 						))}
-					</div>
+					</ul>
 				</div>
 
 				{showControls && (
