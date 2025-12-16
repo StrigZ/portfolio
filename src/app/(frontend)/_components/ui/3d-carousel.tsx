@@ -1,3 +1,4 @@
+import { MoveLeft, MoveRight } from "lucide-react";
 import Image from "next/image";
 import {
 	type CSSProperties,
@@ -13,6 +14,7 @@ import {
 import TouchSweep from "touchsweep";
 import { v4 as uuid } from "uuid";
 import { cn } from "~/lib/utils";
+import { Button } from "./button";
 
 export type CarouselItem = Readonly<{
 	alt?: string;
@@ -51,8 +53,6 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 			showControls = true,
 			slideOnClick = false,
 			classNamePrefix = "carousel",
-			prevButtonContent = "Previous",
-			nextButtonContent = "Next",
 			className,
 		}: CarouselProps,
 		CarouselRef,
@@ -157,8 +157,8 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 		);
 
 		return (
-			<>
-				<div className={cn(getClassName(""), className)} ref={ref}>
+			<div className={cn(className)}>
+				<div className={getClassName("")} ref={ref}>
 					<ul className={getClassName("__container")} style={getItemStyle()}>
 						{data.map((item: DecoratedCarouselItem, index: number) => (
 							// biome-ignore lint/a11y/useKeyWithClickEvents: I don't see a way to implement this logic with keyboard
@@ -203,27 +203,17 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 						))}
 					</ul>
 				</div>
-
 				{showControls && (
-					<div className={getClassName("__controls")}>
-						<button
-							className={getClassName(["__control", "__control--prev"])}
-							onClick={prev}
-							type="button"
-						>
-							{prevButtonContent}
-						</button>
-
-						<button
-							className={getClassName(["__control", "__control--next"])}
-							onClick={next}
-							type="button"
-						>
-							{nextButtonContent}
-						</button>
+					<div className="absolute inset-x-0 bottom-0 flex w-full translate-y-[200%] items-center justify-center gap-4">
+						<Button className="cursor-pointer" onClick={prev} variant="ghost">
+							<MoveLeft /> Prev
+						</Button>
+						<Button className="cursor-pointer" onClick={next} variant="ghost">
+							Next <MoveRight />
+						</Button>
 					</div>
 				)}
-			</>
+			</div>
 		);
 	},
 );

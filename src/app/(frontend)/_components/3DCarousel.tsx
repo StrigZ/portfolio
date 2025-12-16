@@ -34,7 +34,6 @@ export default function ThreeDCarousel({ projects, className }: Props) {
 			items={carouselItems}
 			itemWidth={450}
 			ref={carouselRef}
-			showControls={false}
 			slideOnClick
 		/>
 	);

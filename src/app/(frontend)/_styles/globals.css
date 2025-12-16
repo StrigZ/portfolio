@@ -141,6 +141,7 @@
 	width: 24rem;
 	height: 24rem;
 	top: -24rem;
+	left: unset;
 	box-shadow:
 		0 0 1px 0 black inset,
 		0 0 1px 0 black;
