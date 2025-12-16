@@ -11,7 +11,7 @@ import {
 	useRef,
 	useState,
 } from "react";
-import TouchSweep from "touchsweep";
+import { useSwipeable } from "react-swipeable";
 import { v4 as uuid } from "uuid";
 import { cn } from "~/lib/utils";
 import { Button } from "./button";
@@ -45,6 +45,8 @@ export type CarouselRef = Readonly<{
 	setSelectedIndex: (index: number) => void;
 }>;
 
+const MAX_DRAG_PX = 120;
+
 export const Carousel: FC<CarouselProps> = forwardRef(
 	(
 		{
@@ -76,7 +78,6 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 			[itemWidth, len],
 		);
 
-		const ref = useRef<HTMLDivElement>(null);
 		const [selectedIndex, setSelectedIndex] = useState(0);
 		const [rotationIndex, setRotationIndex] = useState(0);
 
@@ -104,13 +105,12 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 			[len],
 		);
 
-		const getItemStyle = useCallback((): CSSProperties => {
-			const angle = theta * rotationIndex * -1;
-
-			return {
-				transform: `translateZ(${-radius}px) rotateY(${angle}deg)`,
-			};
-		}, [radius, rotationIndex, theta]);
+		const getItemStyle = () => ({
+			transform: `
+		translateZ(${-radius}px)
+		rotateY(${-(rotationIndex * theta + dragRotation)}deg)
+	`,
+		});
 
 		const getClassName = useCallback(
 			(parts: string | string[]) =>
@@ -129,20 +129,31 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 			setRotationIndex((r) => r - 1);
 			setSelectedIndex((i) => normalizeIndex(i - 1));
 		}, [normalizeIndex]);
+		const [dragRotation, setDragRotation] = useState(0);
 
-		useEffect(() => {
-			const area = ref?.current;
-			const touchsweep = new TouchSweep(area ?? undefined);
+		const { ref, ...handlers } = useSwipeable({
+			trackMouse: true,
+			preventScrollOnSwipe: true,
+			delta: 25,
 
-			area?.addEventListener("swipeleft", next);
-			area?.addEventListener("swiperight", prev);
+			onSwiping: ({ deltaX, deltaY }) => {
+				if (Math.abs(deltaY) > Math.abs(deltaX)) return;
 
-			return () => {
-				touchsweep.unbind();
+				const clamped = Math.max(-MAX_DRAG_PX, Math.min(MAX_DRAG_PX, deltaX));
+				const fraction = clamped / MAX_DRAG_PX;
+				setDragRotation(-fraction * theta);
+			},
 
-				area?.removeEventListener("swipeleft", next);
-				area?.removeEventListener("swiperight", prev);
-			};
+			onSwiped: ({ deltaX, velocity, deltaY }) => {
+				setDragRotation(0);
+
+				if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+
+				const shouldMove = Math.abs(deltaX) > 60 || velocity > 0.25;
+				if (!shouldMove) return;
+
+				deltaX > 0 ? prev() : next();
+			},
 		});
 
 		useImperativeHandle(
@@ -157,8 +168,8 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 		);
 
 		return (
-			<div className={cn(className)}>
-				<div className={getClassName("")} ref={ref}>
+			<div className={cn("touch-none select-none", className)}>
+				<div className={getClassName("")} ref={ref} {...handlers}>
 					<ul className={getClassName("__container")} style={getItemStyle()}>
 						{data.map((item: DecoratedCarouselItem, index: number) => (
 							// biome-ignore lint/a11y/useKeyWithClickEvents: I don't see a way to implement this logic with keyboard
@@ -186,7 +197,12 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 								}}
 								style={getSlideStyle(index)}
 							>
-								<Image alt={item.alt ?? ""} fill src={item.image} />
+								<Image
+									alt={item.alt ?? ""}
+									draggable={false}
+									fill
+									src={item.image}
+								/>
 
 								<div
 									className={cn(getClassName("__slide-overlay"), {
