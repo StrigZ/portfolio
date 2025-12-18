@@ -18,7 +18,10 @@ export default function use3DCarousel({ totalSlides }: Props) {
 
 	const radius = useMemo(
 		() =>
-			`round(down, calc(var(${SLIDE_WIDTH_VARIABLE}) / 2 / tan(3.14 / ${len}) + ${SLIDE_GAP}px), 1px)`,
+			`calc(
+    var(${SLIDE_WIDTH_VARIABLE}) / 2 / tan(${Math.PI} / ${len})
+    + ${SLIDE_GAP}px
+  )`,
 		[len],
 	);
 
@@ -100,5 +103,6 @@ export default function use3DCarousel({ totalSlides }: Props) {
 		updateRotationIndex,
 		next,
 		prev,
+		radius,
 	};
 }
