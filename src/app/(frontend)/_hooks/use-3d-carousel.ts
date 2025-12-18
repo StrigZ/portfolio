@@ -1,0 +1,110 @@
+"use client";
+
+import { type CSSProperties, useCallback, useMemo, useState } from "react";
+import { useSwipeable } from "react-swipeable";
+
+const MAX_DRAG_PX = 120;
+
+type Props = { slideWidth: number; totalSlides: number };
+export default function use3DCarousel({ slideWidth, totalSlides }: Props) {
+	const [selectedIndex, setSelectedIndex] = useState(0);
+	const [rotationIndex, setRotationIndex] = useState(0);
+	const [dragRotation, setDragRotation] = useState(0);
+
+	const len = useMemo(() => totalSlides, [totalSlides]);
+	const theta = useMemo(() => 360 / len, [len]);
+
+	const radius = useMemo(
+		() => Math.round(slideWidth / 2 / Math.tan(Math.PI / len)),
+		[slideWidth, len],
+	);
+
+	const normalizeIndex = useCallback(
+		(index: number) => ((index % len) + len) % len,
+		[len],
+	);
+
+	const getContainerStyle = () => ({
+		transform: `
+			translateZ(${-radius}px)
+			rotateX(-12.5deg)
+			rotateY(${-(rotationIndex * theta + dragRotation)}deg)
+	`,
+	});
+
+	const getSlideStyle = useCallback(
+		(index: number): CSSProperties => {
+			const style: CSSProperties = {};
+
+			if (index < len) {
+				const cellAngle = theta * index;
+
+				style.opacity = 1;
+				style.transform = `rotateY(${cellAngle}deg) translateZ(${radius}px)`;
+			} else {
+				style.opacity = 0;
+				style.transform = "none";
+			}
+
+			return style;
+		},
+		[len, radius, theta],
+	);
+
+	const next = useCallback(() => {
+		setRotationIndex((r) => r + 1);
+		setSelectedIndex((i) => normalizeIndex(i + 1));
+	}, [normalizeIndex]);
+
+	const prev = useCallback(() => {
+		setRotationIndex((r) => r - 1);
+		setSelectedIndex((i) => normalizeIndex(i - 1));
+	}, [normalizeIndex]);
+
+	const handlers = useSwipeable({
+		trackMouse: true,
+		preventScrollOnSwipe: true,
+		delta: 25,
+
+		onSwiping: ({ deltaX, deltaY }) => {
+			if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+
+			const clamped = Math.max(-MAX_DRAG_PX, Math.min(MAX_DRAG_PX, deltaX));
+			const fraction = clamped / MAX_DRAG_PX;
+			setDragRotation(-fraction * theta);
+		},
+
+		onSwiped: ({ deltaX, velocity, deltaY }) => {
+			setDragRotation(0);
+
+			if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+
+			const shouldMove = Math.abs(deltaX) > 60 || velocity > 0.25;
+			if (!shouldMove) return;
+
+			deltaX > 0 ? prev() : next();
+		},
+	});
+
+	const updateRotationIndex = (index: number) => {
+		const diff = index - selectedIndex;
+
+		const shortest =
+			Math.abs(diff) > len / 2 ? (diff > 0 ? diff - len : diff + len) : diff;
+
+		setRotationIndex((r) => r + shortest);
+	};
+
+	return {
+		selectedIndex,
+		handlers,
+		len,
+		getContainerStyle,
+		getSlideStyle,
+		normalizeIndex,
+		updateSelectedIndex: (i: number) => setSelectedIndex(i),
+		updateRotationIndex,
+		next,
+		prev,
+	};
+}
