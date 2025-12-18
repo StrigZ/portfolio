@@ -1,6 +1,6 @@
 :root {
-	--slide-height: 24rem;
-	--slide-width: 26rem;
+	--slide-height: 22rem;
+	--slide-width: min(35vw, 26rem);
 }
 
 .carousel {

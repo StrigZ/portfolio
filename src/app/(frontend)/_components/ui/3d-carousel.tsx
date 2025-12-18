@@ -13,14 +13,12 @@ export type CarouselItem = Readonly<{
 
 export type CarouselProps = Readonly<{
 	items: CarouselItem[];
-	itemWidth?: number;
 	slideOnClick?: boolean;
 	className?: string;
 }>;
 
 export default function Carousel({
 	items,
-	itemWidth = 210,
 	slideOnClick = false,
 	className,
 }: CarouselProps) {
@@ -35,7 +33,6 @@ export default function Carousel({
 		updateSelectedIndex,
 		updateRotationIndex,
 	} = use3DCarousel({
-		slideWidth: itemWidth,
 		totalSlides: items.length,
 	});
 

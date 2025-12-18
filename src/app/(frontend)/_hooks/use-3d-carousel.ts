@@ -4,9 +4,11 @@ import { type CSSProperties, useCallback, useMemo, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 
 const MAX_DRAG_PX = 120;
+const SLIDE_GAP = 50;
+const SLIDE_WIDTH_VARIABLE = "--slide-width";
 
-type Props = { slideWidth: number; totalSlides: number };
-export default function use3DCarousel({ slideWidth, totalSlides }: Props) {
+type Props = { totalSlides: number };
+export default function use3DCarousel({ totalSlides }: Props) {
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [rotationIndex, setRotationIndex] = useState(0);
 	const [dragRotation, setDragRotation] = useState(0);
@@ -15,8 +17,9 @@ export default function use3DCarousel({ slideWidth, totalSlides }: Props) {
 	const theta = useMemo(() => 360 / len, [len]);
 
 	const radius = useMemo(
-		() => Math.round(slideWidth / 2 / Math.tan(Math.PI / len)),
-		[slideWidth, len],
+		() =>
+			`round(down, calc(var(${SLIDE_WIDTH_VARIABLE}) / 2 / tan(3.14 / ${len}) + ${SLIDE_GAP}px), 1px)`,
+		[len],
 	);
 
 	const normalizeIndex = useCallback(
@@ -24,31 +27,22 @@ export default function use3DCarousel({ slideWidth, totalSlides }: Props) {
 		[len],
 	);
 
-	const getContainerStyle = () => ({
-		transform: `
-			translateZ(${-radius}px)
+	const getContainerStyle = () =>
+		({
+			transform: `
+			translateZ(calc(${radius} * -1))
 			rotateX(-12.5deg)
 			rotateY(${-(rotationIndex * theta + dragRotation)}deg)
 	`,
-	});
+		}) as CSSProperties;
 
 	const getSlideStyle = useCallback(
 		(index: number): CSSProperties => {
-			const style: CSSProperties = {};
-
-			if (index < len) {
-				const cellAngle = theta * index;
-
-				style.opacity = 1;
-				style.transform = `rotateY(${cellAngle}deg) translateZ(${radius}px)`;
-			} else {
-				style.opacity = 0;
-				style.transform = "none";
-			}
-
-			return style;
+			return {
+				transform: `rotateY(${theta * index}deg) translateZ(${radius})`,
+			} as CSSProperties;
 		},
-		[len, radius, theta],
+		[theta, radius],
 	);
 
 	const next = useCallback(() => {
