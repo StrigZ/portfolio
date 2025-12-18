@@ -5,7 +5,7 @@ import ThreeDCarousel from "./3DCarousel";
 import { SimpleCarousel } from "./SimpleCarousel";
 
 type Props = { projects: Project[] };
-export default function ProjectsCarousel({ projects }: Props) {
+export default function Projects({ projects }: Props) {
 	return (
 		<section className="w-full">
 			<h2>Projects</h2>

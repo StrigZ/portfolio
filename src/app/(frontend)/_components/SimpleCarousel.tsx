@@ -5,7 +5,7 @@ import { MoveLeft, MoveRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "~/lib/utils";
 import type { Project } from "~/payload-types";
-import ProjectsCarouselItem from "./ProjectsCarouselItem";
+import ProjectsItem from "./ProjectsItem";
 import { Button } from "./ui/button";
 import {
 	Carousel,
@@ -49,7 +49,7 @@ export function SimpleCarousel({ projects, className }: Props) {
 						key={project.id + Math.random()}
 					>
 						<div className="p-1">
-							<ProjectsCarouselItem project={project} />
+							<ProjectsItem project={project} />
 						</div>
 					</CarouselItemWrapper>
 				))}

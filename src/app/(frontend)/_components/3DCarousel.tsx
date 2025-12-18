@@ -2,7 +2,7 @@
 
 import { useMemo, useRef } from "react";
 import type { Project } from "~/payload-types";
-import ProjectsCarouselItem from "./ProjectsCarouselItem";
+import ProjectsItem from "./ProjectsItem";
 import Carousel, {
 	type CarouselItem,
 	type CarouselRef,
@@ -23,7 +23,7 @@ export default function ThreeDCarousel({ projects, className }: Props) {
 				return {
 					image: url ?? blurDataUrl,
 					alt,
-					content: <ProjectsCarouselItem project={project} />,
+					content: <ProjectsItem project={project} />,
 				};
 			}),
 		[projects],

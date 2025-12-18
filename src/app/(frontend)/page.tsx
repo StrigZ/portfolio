@@ -1,5 +1,5 @@
 import { getProjects } from "~/collections/projects/fetchers";
-import ProjectsCarousel from "./_components/ProjectsCarousel";
+import Projects from "./_components/Projects";
 import { ThemeButton } from "./_components/ThemeButton";
 
 export default async function page() {
@@ -8,11 +8,21 @@ export default async function page() {
 	return (
 		<>
 			<header>
-			<ThemeButton />
+				<ThemeButton />
 			</header>
 			<main className="flex items-center justify-center">
-				<ProjectsCarousel
+				<Projects
 					projects={[
+						...projects,
+						...projects,
+						...projects,
+						...projects,
+						...projects,
+						...projects,
+						...projects,
+						...projects,
+						...projects,
+						...projects,
 						...projects,
 					]}
 				/>

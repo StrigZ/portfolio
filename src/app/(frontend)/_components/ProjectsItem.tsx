@@ -5,9 +5,9 @@ import type { Project } from "~/payload-types";
 import { buttonVariants } from "./ui/button";
 
 type Props = { project: Project; className?: string };
-export default function ProjectsCarouselItem({ project, className }: Props) {
+export default function ProjectsItem({ project, className }: Props) {
 	if (typeof project.featuredImage === "number") {
-		throw new Error("ProjectsCarouselItem: Media is not accessible!");
+		throw new Error("ProjectsItem: Media is not accessible!");
 	}
 
 	return (
@@ -48,7 +48,7 @@ export default function ProjectsCarouselItem({ project, className }: Props) {
 				<ul className="flex items-center justify-center gap-2">
 					{project.technologies?.map((tech) => {
 						if (typeof tech.icon === "number") {
-							throw new Error("ProjectsCarouselItem: Media is not accessible!");
+							throw new Error("ProjectsItem: Media is not accessible!");
 						}
 
 						return (
