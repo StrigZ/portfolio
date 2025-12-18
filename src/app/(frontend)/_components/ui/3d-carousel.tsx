@@ -5,10 +5,8 @@ import {
 	type FC,
 	forwardRef,
 	useCallback,
-	useEffect,
 	useImperativeHandle,
 	useMemo,
-	useRef,
 	useState,
 } from "react";
 import { useSwipeable } from "react-swipeable";
@@ -105,10 +103,11 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 			[len],
 		);
 
-		const getItemStyle = () => ({
+		const getContainerStyle = () => ({
 			transform: `
-		translateZ(${-radius}px)
-		rotateY(${-(rotationIndex * theta + dragRotation)}deg)
+			translateZ(${-radius}px)
+			rotateX(-12.5deg)
+			rotateY(${-(rotationIndex * theta + dragRotation)}deg)
 	`,
 		});
 
@@ -170,7 +169,10 @@ export const Carousel: FC<CarouselProps> = forwardRef(
 		return (
 			<div className={cn("touch-none select-none", className)}>
 				<div className={getClassName("")} ref={ref} {...handlers}>
-					<ul className={getClassName("__container")} style={getItemStyle()}>
+					<ul
+						className={getClassName("__container")}
+						style={getContainerStyle()}
+					>
 						{data.map((item: DecoratedCarouselItem, index: number) => (
 							// biome-ignore lint/a11y/useKeyWithClickEvents: I don't see a way to implement this logic with keyboard
 							<li

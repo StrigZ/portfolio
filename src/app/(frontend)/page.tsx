@@ -7,8 +7,16 @@ export default async function page() {
 
 	return (
 		<>
-			<ProjectsCarousel projects={projects} />
+			<header>
 			<ThemeButton />
+			</header>
+			<main className="flex items-center justify-center">
+				<ProjectsCarousel
+					projects={[
+						...projects,
+					]}
+				/>
+			</main>
 		</>
 	);
 }

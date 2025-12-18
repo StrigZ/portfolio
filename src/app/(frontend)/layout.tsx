@@ -1,5 +1,5 @@
-import "react-round-carousel/src/index.css";
 import "./_styles/globals.css";
+import "./_styles/carousel.css";
 
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
@@ -21,7 +21,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html className={`${geist.variable}`} lang="en" suppressHydrationWarning>
-			<body className="min-h-screen">
+			<body className="min-h-screen px-1 sm:px-2 md:px-4">
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"

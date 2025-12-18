@@ -124,28 +124,3 @@
 		@apply bg-background text-foreground;
 	}
 }
-
-/* react-round-carousel */
-
-.carousel {
-	width: 24rem;
-	height: 24rem;
-	margin-bottom: 24rem;
-}
-
-.carousel__container {
-	margin-top: 48rem;
-}
-
-.carousel__slide {
-	width: 24rem;
-	height: 24rem;
-	top: -24rem;
-	left: unset;
-	box-shadow:
-		0 0 1px 0 black inset,
-		0 0 1px 0 black;
-	border: none;
-	border-radius: 0.5rem;
-	overflow: hidden;
-}
