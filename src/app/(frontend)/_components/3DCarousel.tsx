@@ -26,5 +26,5 @@ export default function ThreeDCarousel({ projects, className }: Props) {
 		[projects],
 	);
 
-	return <Carousel className={className} items={carouselItems} slideOnClick />;
+	return <Carousel className={className} items={carouselItems} />;
 }

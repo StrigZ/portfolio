@@ -13,15 +13,10 @@ export type CarouselItem = Readonly<{
 
 export type CarouselProps = Readonly<{
 	items: CarouselItem[];
-	slideOnClick?: boolean;
 	className?: string;
 }>;
 
-export default function Carousel({
-	items,
-	slideOnClick = false,
-	className,
-}: CarouselProps) {
+export default function Carousel({ items, className }: CarouselProps) {
 	const {
 		handlers,
 		selectedIndex,
@@ -49,7 +44,6 @@ export default function Carousel({
 							key={item.id}
 							onClick={() => {
 								item.onClick?.();
-								if (!slideOnClick) return;
 
 								updateRotationIndex(index);
 								updateSelectedIndex(index);
