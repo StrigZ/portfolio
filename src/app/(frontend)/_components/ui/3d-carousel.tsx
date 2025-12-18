@@ -1,8 +1,7 @@
-import { MoveLeft, MoveRight } from "lucide-react";
 import Image from "next/image";
 import { cn } from "~/lib/utils";
 import use3DCarousel from "../../_hooks/use-3d-carousel";
-import { Button } from "./button";
+import CarouselNavButtons from "../CarouselNavButtons";
 
 export type CarouselItem = Readonly<{
 	id: string;
@@ -82,14 +81,11 @@ export default function Carousel({
 					))}
 				</ul>
 			</div>
-			<div className="absolute inset-x-0 bottom-0 flex w-full translate-y-[200%] items-center justify-center gap-4">
-				<Button className="cursor-pointer" onClick={prev} variant="ghost">
-					<MoveLeft /> Prev
-				</Button>
-				<Button className="cursor-pointer" onClick={next} variant="ghost">
-					Next <MoveRight />
-				</Button>
-			</div>
+			<CarouselNavButtons
+				className="absolute inset-x-0 bottom-0 w-full translate-y-[200%]"
+				onNext={next}
+				onPrev={prev}
+			/>
 		</div>
 	);
 }

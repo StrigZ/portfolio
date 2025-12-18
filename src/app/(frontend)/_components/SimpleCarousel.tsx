@@ -1,12 +1,11 @@
 "use client";
 
 import Autoplay from "embla-carousel-autoplay";
-import { MoveLeft, MoveRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "~/lib/utils";
 import type { Project } from "~/payload-types";
+import CarouselNavButtons from "./CarouselNavButtons";
 import ProjectsItem from "./ProjectsItem";
-import { Button } from "./ui/button";
 import {
 	Carousel,
 	type CarouselApi,
@@ -54,22 +53,10 @@ export function SimpleCarousel({ projects, className }: Props) {
 					</CarouselItemWrapper>
 				))}
 			</CarouselContent>
-			<div className="flex items-center justify-center gap-4">
-				<Button
-					className="cursor-pointer"
-					onClick={() => api?.scrollPrev()}
-					variant="ghost"
-				>
-					<MoveLeft /> Prev
-				</Button>
-				<Button
-					className="cursor-pointer"
-					onClick={() => api?.scrollNext()}
-					variant="ghost"
-				>
-					Next <MoveRight />{" "}
-				</Button>
-			</div>
+			<CarouselNavButtons
+				onNext={() => api?.scrollNext()}
+				onPrev={() => api?.scrollPrev()}
+			/>
 		</Carousel>
 	);
 }

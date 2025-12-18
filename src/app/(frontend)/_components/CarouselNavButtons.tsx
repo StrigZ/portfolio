@@ -1,0 +1,21 @@
+import { MoveLeft, MoveRight } from "lucide-react";
+import { cn } from "~/lib/utils";
+import { Button } from "./ui/button";
+
+type Props = {
+	onNext: () => void;
+	onPrev: () => void;
+	className?: string;
+};
+export default function CarouselNavButtons({ onNext, onPrev }: Props) {
+	return (
+		<div className={cn("flex items-center justify-center gap-4")}>
+			<Button className="cursor-pointer" onClick={onPrev} variant="ghost">
+				<MoveLeft /> Prev
+			</Button>
+			<Button className="cursor-pointer" onClick={onNext} variant="ghost">
+				Next <MoveRight />
+			</Button>
+		</div>
+	);
+}
