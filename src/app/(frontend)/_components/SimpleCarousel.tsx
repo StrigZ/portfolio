@@ -40,10 +40,10 @@ export function SimpleCarousel({ projects, className }: Props) {
 			]}
 			setApi={setApi}
 		>
-			<CarouselContent className="sm:-ml-2 md:-ml-4 -ml-1 w-full">
+			<CarouselContent className="sm:-ml-2 md:-ml-4 ml-0 w-full">
 				{projects.map((project) => (
 					<CarouselItemWrapper
-						className="w-full pl-1 sm:basis-1/2 sm:pl-4 md:pl-4"
+						className="w-full pl-0 sm:basis-1/2 sm:pl-4 md:pl-4"
 						// TODO: remove Math.random() when done testing
 						key={project.id + Math.random()}
 					>
