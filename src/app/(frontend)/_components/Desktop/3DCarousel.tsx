@@ -5,9 +5,9 @@ import { useMemo } from "react";
 import { v4 as uuid } from "uuid";
 import { cn } from "~/lib/utils";
 import type { Project } from "~/payload-types";
-import use3DCarousel from "../_hooks/use-3d-carousel";
-import CarouselNavButtons from "./CarouselNavButtons";
-import ProjectsItem from "./ProjectsItem";
+import use3DCarousel from "../../_hooks/use-3d-carousel";
+import CarouselNavButtons from "../CarouselNavButtons";
+import ProjectsItem from "../ProjectsItem";
 export type Props = {
 	projects: Project[];
 	radius: string;
