@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useMemo } from "react";
 import { v4 as uuid } from "uuid";
 import { cn } from "~/lib/utils";
 import type { Project } from "~/payload-types";
@@ -29,6 +30,12 @@ export default function ThreeDCarousel({ projects, className, radius }: Props) {
 		radius,
 	});
 
+	// TODO: remove random when done testing
+	const carouselItems = useMemo(
+		() => projects.map((project) => ({ ...project, id: uuid() })),
+		[projects],
+	);
+
 	return (
 		<>
 			<div
@@ -45,7 +52,7 @@ export default function ThreeDCarousel({ projects, className, radius }: Props) {
 						className="transform-3d pointer-events-none absolute inset-x-0 top-0 transition-transform duration-1000"
 						style={getContainerStyle()}
 					>
-						{projects.map((project, index) => {
+						{carouselItems.map((project, index) => {
 							if (typeof project.featuredImage === "number")
 								throw new Error("carouselItems: Media is not accessible!");
 
@@ -54,13 +61,12 @@ export default function ThreeDCarousel({ projects, className, radius }: Props) {
 								// biome-ignore lint/a11y/useKeyWithClickEvents: I don't see a way to implement this logic with keyboard
 								<li
 									className={cn(
-										"group pointer-events-auto absolute aspect-[4/3] overflow-hidden rounded-md transition-transform duration-1000",
+										"group pointer-events-auto absolute aspect-4/3 overflow-hidden rounded-md transition-transform duration-1000",
 										{
 											"cursor-pointer": index !== selectedIndex,
 										},
 									)}
-									// TODO: remove random when done testing
-									key={uuid()}
+									key={project.id}
 									onClick={() => {
 										updateRotationIndex(index);
 										updateSelectedIndex(index);
