@@ -1,17 +1,21 @@
 "use client";
 
+import { cn } from "~/lib/utils";
 import type { Project } from "~/payload-types";
 import useSlideRadius from "../../_hooks/use-slide-radius";
 import ThreeDCarousel from "./3DCarousel";
 import RotatingHeading from "./RotatingHeading";
+import TopSection from "./TopSection";
 
 type Props = { projects: Project[]; className?: string };
 export default function DesktopPage({ className, projects }: Props) {
 	const { radius } = useSlideRadius({ len: projects.length });
 
 	return (
-		<div className="flex h-full w-full flex-col pb-24">
-			<section className="h-1/2"></section>
+		<div className={cn("flex h-full w-full flex-col gap-24 pb-12", className)}>
+			<section className="h-1/2">
+				<TopSection className="perspective-distant" />
+			</section>
 			<section className="flex h-1/2 w-full flex-col gap-8">
 				<RotatingHeading className="perspective-distant" radius={radius} />
 				<ThreeDCarousel

@@ -5,8 +5,12 @@ import { useSwipeable } from "react-swipeable";
 
 const MAX_DRAG_PX = 120;
 
-type Props = { totalSlides: number; radius: string };
-export default function use3DCarousel({ totalSlides, radius }: Props) {
+type Props = { totalSlides: number; radius: string; xTilt?: number };
+export default function use3DCarousel({
+	totalSlides,
+	radius,
+	xTilt = -9.5,
+}: Props) {
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [rotationIndex, setRotationIndex] = useState(0);
 	const [dragRotation, setDragRotation] = useState(0);
@@ -22,7 +26,7 @@ export default function use3DCarousel({ totalSlides, radius }: Props) {
 		({
 			transform: `
 			translateZ(calc(${radius} * -1))
-			rotateX(-9.5deg)
+			rotateX(${xTilt}deg)
 			rotateY(${-(rotationIndex * theta + dragRotation)}deg)
 	`,
 		}) as CSSProperties;
