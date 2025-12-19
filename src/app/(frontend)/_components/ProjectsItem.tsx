@@ -13,7 +13,7 @@ export default function ProjectsItem({ project, className }: Props) {
 	return (
 		<article
 			className={cn(
-				"flex h-[500px] w-full select-none flex-col overflow-hidden rounded-lg shadow-white/50 shadow-xs sm:h-[600px] md:h-full md:shadow-none",
+				"flex select-none flex-col overflow-hidden rounded-lg",
 				className,
 			)}
 		>

@@ -2,8 +2,8 @@
 
 import type { Project } from "~/payload-types";
 import useSlideRadius from "../../_hooks/use-slide-radius";
-import RotatingHeading from "../RotatingHeading";
-import ThreeDCarousel from "../ui/3d-carousel";
+import ThreeDCarousel from "./3DCarousel";
+import RotatingHeading from "./RotatingHeading";
 
 type Props = { projects: Project[]; className?: string };
 export default function DesktopPage({ className, projects }: Props) {
