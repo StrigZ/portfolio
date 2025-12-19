@@ -6,11 +6,12 @@ export default function ContactMe() {
 			<h1 className="bold mb-auto font-mono text-5xl tracking-wider">
 				CONTACT ME
 			</h1>
-			<ul className="mb-auto flex flex-col gap-2 text-xl">
+			<ul className="mb-auto flex flex-col gap-2">
 				<li>
 					<a
 						className={buttonVariants({
 							variant: "link",
+							className: "text-lg!",
 						})}
 						href="mailto:i@strigz.dev"
 						rel="noreferrer noopener"
@@ -23,6 +24,7 @@ export default function ContactMe() {
 					<a
 						className={buttonVariants({
 							variant: "link",
+							className: "text-lg!",
 						})}
 						href="https://github.com/StrigZ"
 						rel="noreferrer noopener"
