@@ -1,9 +1,8 @@
-import { cloneElement } from "react";
 import { cn } from "~/lib/utils";
 import use3DCarousel from "../../_hooks/use-3d-carousel";
 import useSlideRadius from "../../_hooks/use-slide-radius";
 // import CarouselNavButtons from "../CarouselNavButtons";
-import AboutMe from "./AboutMe";
+import ContactMe from "./ContactMe";
 
 const SLIDE_WIDTH = "min(66vw, 68rem)";
 
@@ -16,11 +15,11 @@ export default function TopSection({ className }: Props) {
 	});
 
 	const {
-		handlers,
-		selectedIndex,
+		// handlers,
+		// selectedIndex,
 		getContainerStyle,
 		getSlideStyle,
-		normalizeIndex,
+		// normalizeIndex,
 	} = use3DCarousel({
 		totalSlides: 3,
 		radius,
@@ -35,48 +34,46 @@ export default function TopSection({ className }: Props) {
 		>
 			<div
 				className="transform-3d pointer-events-none absolute inset-0"
-				{...handlers}
+				// {...handlers}
 			>
 				<ul
 					className="transform-3d pointer-events-none absolute inset-0 transition-transform duration-1000"
 					style={getContainerStyle()}
 				>
-					{[<AboutMe key={1} />, <AboutMe key={2} />, <AboutMe key={3} />].map(
-						(project, index) => {
-							return (
-								<li
+					{[<ContactMe key={1} />].map((project, index) => {
+						return (
+							<li
+								className={cn(
+									"group pointer-events-auto absolute h-[300px] overflow-hidden rounded-sm transition-transform duration-1000",
+									// {
+									// 	"cursor-pointer": index !== selectedIndex,
+									// },
+								)}
+								// biome-ignore lint/suspicious/noArrayIndexKey: <array is fixed>
+								key={index}
+								style={{
+									...getSlideStyle(index),
+									left: `calc(50% - (${SLIDE_WIDTH} / 2))`,
+									width: SLIDE_WIDTH,
+								}}
+							>
+								<div
 									className={cn(
-										"group pointer-events-auto absolute h-[300px] overflow-hidden rounded-md transition-transform duration-1000",
-										{
-											"cursor-pointer": index !== selectedIndex,
-										},
+										"absolute inset-0 select-none border text-center shadow-aa",
+										// {
+										// 	"pointer-events-none **:overflow-hidden": ![
+										// 		normalizeIndex(selectedIndex - 1),
+										// 		selectedIndex,
+										// 		normalizeIndex(selectedIndex + 1),
+										// 	].includes(index),
+										// },
 									)}
-									// biome-ignore lint/suspicious/noArrayIndexKey: <asdfas>
-									key={index}
-									style={{
-										...getSlideStyle(index),
-										left: `calc(50% - (${SLIDE_WIDTH} / 2))`,
-										width: SLIDE_WIDTH,
-									}}
 								>
-									<div
-										className={cn(
-											"absolute inset-0 select-none border border-red-400 bg-white text-center",
-											{
-												"pointer-events-none **:overflow-hidden": ![
-													normalizeIndex(selectedIndex - 1),
-													selectedIndex,
-													normalizeIndex(selectedIndex + 1),
-												].includes(index),
-											},
-										)}
-									>
-										{project}
-									</div>
-								</li>
-							);
-						},
-					)}
+									{project}
+								</div>
+							</li>
+						);
+					})}
 				</ul>
 			</div>
 		</div>
