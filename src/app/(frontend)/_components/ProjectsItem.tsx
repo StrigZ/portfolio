@@ -32,7 +32,7 @@ export default function ProjectsItem({ project, className }: Props) {
 				<h3 className="hidden w-full text-start text-2xl md:inline">
 					{project.title}
 				</h3>
-				<p className="mb-auto max-h-full overflow-y-auto text-start text-sm">
+				<p className="scrollbar-thumb scrollbar-thin mb-auto max-h-full overflow-y-auto text-start text-sm">
 					Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae
 					ratione nostrum, tempore voluptatibus mollitia ipsa nam? Non at aut,
 					laboriosam illo tempore nesciunt aspernatur sapiente qui temporibus
