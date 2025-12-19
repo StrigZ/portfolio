@@ -5,9 +5,9 @@ import { useMemo } from "react";
 import { v4 as uuid } from "uuid";
 import { cn } from "~/lib/utils";
 import type { Project } from "~/payload-types";
-import use3DCarousel from "../../_hooks/use-3d-carousel";
-import CarouselNavButtons from "../CarouselNavButtons";
-import ProjectsItem from "../ProjectsItem";
+import use3DCarousel from "../_hooks/use-3d-carousel";
+import CarouselNavButtons from "./CarouselNavButtons";
+import ProjectsItem from "./ProjectsItem";
 export type Props = {
 	projects: Project[];
 	radius: string;
@@ -86,7 +86,7 @@ export default function ThreeDCarousel({ projects, className, radius }: Props) {
 
 									<div
 										className={cn(
-											"absolute inset-0 flex select-none flex-wrap content-center items-center justify-center bg-black/70 text-center text-white opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100",
+											"absolute inset-0 select-none bg-black/70 text-center opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100",
 											{
 												"pointer-events-none **:overflow-hidden": ![
 													normalizeIndex(selectedIndex - 1),
@@ -96,7 +96,7 @@ export default function ThreeDCarousel({ projects, className, radius }: Props) {
 											},
 										)}
 									>
-										<ProjectsItem project={project} />,
+										<ProjectsItem className="h-full" project={project} />,
 									</div>
 								</li>
 							);
