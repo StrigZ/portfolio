@@ -1,22 +1,19 @@
+"use client";
+
 import Image from "next/image";
+import { v4 as uuid } from "uuid";
 import { cn } from "~/lib/utils";
+import type { Project } from "~/payload-types";
 import use3DCarousel from "../../_hooks/use-3d-carousel";
 import CarouselNavButtons from "../CarouselNavButtons";
-
-export type CarouselItem = Readonly<{
-	id: string;
-	alt?: string;
-	image: string;
-	content: React.ReactNode;
-	onClick?: () => void;
-}>;
-
-export type CarouselProps = Readonly<{
-	items: CarouselItem[];
+import ProjectsItem from "../ProjectsItem";
+export type Props = {
+	projects: Project[];
+	radius: string;
 	className?: string;
-}>;
+};
 
-export default function Carousel({ items, className }: CarouselProps) {
+export default function ThreeDCarousel({ projects, className, radius }: Props) {
 	const {
 		handlers,
 		selectedIndex,
@@ -28,55 +25,84 @@ export default function Carousel({ items, className }: CarouselProps) {
 		updateSelectedIndex,
 		updateRotationIndex,
 	} = use3DCarousel({
-		totalSlides: items.length,
+		totalSlides: projects.length,
+		radius,
 	});
 
 	return (
-		<div className={cn("touch-none select-none", className)}>
-			<div className="carousel" {...handlers}>
-				<ul className="carousel__container" style={getContainerStyle()}>
-					{items.map((item, index) => (
-						// biome-ignore lint/a11y/useKeyWithClickEvents: I don't see a way to implement this logic with keyboard
-						<li
-							className={cn("carousel__slide", {
-								"cursor-pointer": index !== selectedIndex,
-							})}
-							key={item.id}
-							onClick={() => {
-								item.onClick?.();
+		<>
+			<div
+				className={cn(
+					"relative flex touch-none select-none flex-col gap-4",
+					className,
+				)}
+			>
+				<div
+					className="transform-3d pointer-events-none absolute inset-x-0 top-0"
+					{...handlers}
+				>
+					<ul
+						className="transform-3d pointer-events-none absolute inset-x-0 top-0 transition-transform duration-1000"
+						style={getContainerStyle()}
+					>
+						{projects.map((project, index) => {
+							if (typeof project.featuredImage === "number")
+								throw new Error("carouselItems: Media is not accessible!");
 
-								updateRotationIndex(index);
-								updateSelectedIndex(index);
-							}}
-							style={getSlideStyle(index)}
-						>
-							<Image
-								alt={item.alt ?? ""}
-								draggable={false}
-								fill
-								src={item.image}
-							/>
+							const { blurDataUrl, url, alt } = project.featuredImage;
+							return (
+								// biome-ignore lint/a11y/useKeyWithClickEvents: I don't see a way to implement this logic with keyboard
+								<li
+									className={cn(
+										"group pointer-events-auto absolute aspect-[4/3] overflow-hidden rounded-md transition-transform duration-1000",
+										{
+											"cursor-pointer": index !== selectedIndex,
+										},
+									)}
+									// TODO: remove random when done testing
+									key={uuid()}
+									onClick={() => {
+										updateRotationIndex(index);
+										updateSelectedIndex(index);
+									}}
+									style={{
+										...getSlideStyle(index),
+										left: "calc(50% - (var(--slide-width) / 2))",
+										width: "var(--slide-width)",
+									}}
+								>
+									<Image
+										alt={alt ?? ""}
+										draggable={false}
+										fill
+										src={url ?? blurDataUrl}
+									/>
 
-							<div
-								className={cn("carousel__slide-overlay", {
-									"pointer-events-none **:overflow-hidden": ![
-										normalizeIndex(selectedIndex - 1),
-										selectedIndex,
-										normalizeIndex(selectedIndex + 1),
-									].includes(index),
-								})}
-							>
-								{item.content}
-							</div>
-						</li>
-					))}
-				</ul>
+									<div
+										className={cn(
+											"absolute inset-0 flex select-none flex-wrap content-center items-center justify-center bg-black/70 text-center text-white opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100",
+											{
+												"pointer-events-none **:overflow-hidden": ![
+													normalizeIndex(selectedIndex - 1),
+													selectedIndex,
+													normalizeIndex(selectedIndex + 1),
+												].includes(index),
+											},
+										)}
+									>
+										<ProjectsItem project={project} />,
+									</div>
+								</li>
+							);
+						})}
+					</ul>
+				</div>
 			</div>
 			<CarouselNavButtons
-				className="absolute inset-x-0 bottom-0 w-full translate-y-[200%]"
+				className="absolute inset-x-0 bottom-12 w-full lg:bottom-6"
 				onNext={next}
 				onPrev={prev}
 			/>
-		</div>
+		</>
 	);
 }

@@ -1,4 +1,5 @@
 import { getProjects } from "~/collections/projects/fetchers";
+import DesktopPage from "./_components/Desktop/DesktopPage";
 import Projects from "./_components/Projects";
 import { ThemeButton } from "./_components/ThemeButton";
 
@@ -7,13 +8,13 @@ export default async function page() {
 
 	return (
 		<>
-			<header>
+			<header className="fixed top-0 left-0">
 				<ThemeButton />
 			</header>
-			<main className="flex items-center justify-center">
-				<Projects
+			<main className="relative flex h-full flex-col items-center justify-center">
+				<DesktopPage
+					className="hidden md:block"
 					projects={[
-						...projects,
 						...projects,
 						...projects,
 						...projects,
@@ -26,6 +27,7 @@ export default async function page() {
 						...projects,
 					]}
 				/>
+				{/* <Projects /> */}
 			</main>
 		</>
 	);

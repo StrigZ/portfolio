@@ -4,26 +4,14 @@ import { type CSSProperties, useCallback, useMemo, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 
 const MAX_DRAG_PX = 120;
-const SLIDE_GAP = 50;
-const SLIDE_WIDTH_VARIABLE = "--slide-width";
 
-type Props = { totalSlides: number };
-export default function use3DCarousel({ totalSlides }: Props) {
+type Props = { totalSlides: number; radius: string };
+export default function use3DCarousel({ totalSlides, radius }: Props) {
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [rotationIndex, setRotationIndex] = useState(0);
 	const [dragRotation, setDragRotation] = useState(0);
-
 	const len = useMemo(() => totalSlides, [totalSlides]);
 	const theta = useMemo(() => 360 / len, [len]);
-
-	const radius = useMemo(
-		() =>
-			`calc(
-    var(${SLIDE_WIDTH_VARIABLE}) / 2 / tan(${Math.PI} / ${len})
-    + ${SLIDE_GAP}px
-  )`,
-		[len],
-	);
 
 	const normalizeIndex = useCallback(
 		(index: number) => ((index % len) + len) % len,
@@ -34,7 +22,7 @@ export default function use3DCarousel({ totalSlides }: Props) {
 		({
 			transform: `
 			translateZ(calc(${radius} * -1))
-			rotateX(-12.5deg)
+			rotateX(-9.5deg)
 			rotateY(${-(rotationIndex * theta + dragRotation)}deg)
 	`,
 		}) as CSSProperties;
@@ -103,6 +91,5 @@ export default function use3DCarousel({ totalSlides }: Props) {
 		updateRotationIndex,
 		next,
 		prev,
-		radius,
 	};
 }

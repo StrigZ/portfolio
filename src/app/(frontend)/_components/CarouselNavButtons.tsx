@@ -7,9 +7,13 @@ type Props = {
 	onPrev: () => void;
 	className?: string;
 };
-export default function CarouselNavButtons({ onNext, onPrev }: Props) {
+export default function CarouselNavButtons({
+	onNext,
+	onPrev,
+	className,
+}: Props) {
 	return (
-		<div className={cn("flex items-center justify-center gap-4")}>
+		<div className={cn("flex items-center justify-center gap-4", className)}>
 			<Button className="cursor-pointer" onClick={onPrev} variant="ghost">
 				<MoveLeft /> Prev
 			</Button>
