@@ -11,7 +11,7 @@ export default async function page() {
 			<header className="fixed top-0 left-0">
 				<ThemeButton />
 			</header>
-			<main className="relative flex h-full flex-col items-center justify-center">
+			<main className="relative mx-auto flex h-full max-w-5xl flex-col items-center justify-center">
 				<DesktopPage
 					className="hidden md:block"
 					projects={[

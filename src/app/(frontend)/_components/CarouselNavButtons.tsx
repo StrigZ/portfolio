@@ -14,10 +14,18 @@ export default function CarouselNavButtons({
 }: Props) {
 	return (
 		<div className={cn("flex items-center justify-center gap-4", className)}>
-			<Button className="cursor-pointer" onClick={onPrev} variant="ghost">
+			<Button
+				className="pointer-events-auto cursor-pointer"
+				onClick={onPrev}
+				variant="ghost"
+			>
 				<MoveLeft /> Prev
 			</Button>
-			<Button className="cursor-pointer" onClick={onNext} variant="ghost">
+			<Button
+				className="pointer-events-auto cursor-pointer"
+				onClick={onNext}
+				variant="ghost"
+			>
 				Next <MoveRight />
 			</Button>
 		</div>

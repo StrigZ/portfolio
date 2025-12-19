@@ -5,7 +5,7 @@ import useSlideRadius from "../../_hooks/use-slide-radius";
 // import CarouselNavButtons from "../CarouselNavButtons";
 import AboutMe from "./AboutMe";
 
-const SLIDE_WIDTH = "min(66vw, 78rem)";
+const SLIDE_WIDTH = "min(66vw, 68rem)";
 
 type Props = { className?: string };
 export default function TopSection({ className }: Props) {
@@ -34,11 +34,11 @@ export default function TopSection({ className }: Props) {
 			)}
 		>
 			<div
-				className="transform-3d pointer-events-none absolute inset-x-0 top-0"
+				className="transform-3d pointer-events-none absolute inset-0"
 				{...handlers}
 			>
 				<ul
-					className="transform-3d pointer-events-none absolute inset-x-0 top-0 transition-transform duration-1000"
+					className="transform-3d pointer-events-none absolute inset-0 transition-transform duration-1000"
 					style={getContainerStyle()}
 				>
 					{[<AboutMe key={1} />, <AboutMe key={2} />, <AboutMe key={3} />].map(
@@ -46,7 +46,7 @@ export default function TopSection({ className }: Props) {
 							return (
 								<li
 									className={cn(
-										"group pointer-events-auto absolute h-[350px] overflow-hidden rounded-md transition-transform duration-1000",
+										"group pointer-events-auto absolute h-[300px] overflow-hidden rounded-md transition-transform duration-1000",
 										{
 											"cursor-pointer": index !== selectedIndex,
 										},

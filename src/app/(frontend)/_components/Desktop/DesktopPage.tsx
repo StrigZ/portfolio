@@ -12,11 +12,11 @@ export default function DesktopPage({ className, projects }: Props) {
 	const { radius } = useSlideRadius({ len: projects.length });
 
 	return (
-		<div className={cn("flex h-full w-full flex-col gap-24 pb-12", className)}>
+		<div className={cn("flex h-full w-full flex-col gap-24", className)}>
 			<section className="h-1/2">
-				<TopSection className="perspective-distant" />
+				<TopSection className="perspective-distant z-50" />
 			</section>
-			<section className="flex h-1/2 w-full flex-col gap-8">
+			<section className="flex h-1/2 w-full flex-col">
 				<RotatingHeading className="perspective-distant" radius={radius} />
 				<ThreeDCarousel
 					className="perspective-distant h-full w-full"
