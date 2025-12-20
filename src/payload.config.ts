@@ -8,6 +8,7 @@ import { Media } from "./collections/Media";
 import { Projects } from "./collections/projects/config";
 import { Technologies } from "./collections/Technologies";
 import { Users } from "./collections/Users";
+import { env } from "./env";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -40,4 +41,5 @@ export default buildConfig({
 		],
 		fallback: true,
 	},
+	serverURL: env.NEXT_PUBLIC_VERCEL_URL,
 });
