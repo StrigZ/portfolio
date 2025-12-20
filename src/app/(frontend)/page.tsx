@@ -1,6 +1,6 @@
 import { getProjects } from "~/collections/projects/fetchers";
-import DesktopPage from "./_components/Desktop/DesktopPage";
-import MobilePage from "./_components/Mobile/MobilePage";
+import DesktopPage from "./_components/_pages/Desktop/DesktopPage";
+import MobilePage from "./_components/_pages/Mobile/MobilePage";
 
 export default async function page() {
 	const projects = await getProjects();

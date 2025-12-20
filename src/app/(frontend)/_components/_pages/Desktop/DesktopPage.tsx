@@ -2,7 +2,7 @@
 
 import { cn } from "~/lib/utils";
 import type { Project } from "~/payload-types";
-import useSlideRadius from "../../_hooks/use-slide-radius";
+import useSlideRadius from "../../../_hooks/use-slide-radius";
 import ThreeDCarousel from "./3DCarousel";
 import RotatingHeading from "./RotatingHeading";
 import TopSection from "./TopSection";

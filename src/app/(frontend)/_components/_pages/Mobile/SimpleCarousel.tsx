@@ -3,18 +3,18 @@
 import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useState } from "react";
 import { cn } from "~/lib/utils";
-import type { Project } from "~/payload-types";
-import CarouselNavButtons from "./CarouselNavButtons";
-import ProjectsItem from "./ProjectsItem";
+import type { Project as TProject } from "~/payload-types";
+import CarouselNavButtons from "../../CarouselNavButtons";
+import Project from "../../Project/Project";
 import {
 	Carousel,
 	type CarouselApi,
 	CarouselContent,
 	CarouselItem as CarouselItemWrapper,
-} from "./ui/carousel";
+} from "../../ui/carousel";
 
 type Props = {
-	projects: Project[];
+	projects: TProject[];
 	className?: string;
 };
 export function SimpleCarousel({ projects, className }: Props) {
@@ -48,7 +48,7 @@ export function SimpleCarousel({ projects, className }: Props) {
 						key={project.id + Math.random()}
 					>
 						<div className="p-1">
-							<ProjectsItem
+							<Project
 								className="h-[500px] shadow-white/50 shadow-xs"
 								project={project}
 							/>

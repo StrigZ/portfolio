@@ -1,7 +1,7 @@
 import { cn } from "~/lib/utils";
 import type { Project } from "~/payload-types";
 import ContactMe from "../Desktop/ContactMe";
-import { SimpleCarousel } from "../SimpleCarousel";
+import { SimpleCarousel } from "./SimpleCarousel";
 
 type Props = { projects: Project[]; className?: string };
 export default function MobilePage({ projects, className }: Props) {

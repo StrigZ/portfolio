@@ -1,5 +1,5 @@
 import { cn } from "~/lib/utils";
-import { buttonVariants } from "../ui/button";
+import { buttonVariants } from "../../ui/button";
 
 type Props = { className?: string };
 export default function ContactMe({ className }: Props) {

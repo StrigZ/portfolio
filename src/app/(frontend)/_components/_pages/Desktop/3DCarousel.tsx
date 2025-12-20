@@ -4,12 +4,12 @@ import Image from "next/image";
 import { useMemo } from "react";
 import { v4 as uuid } from "uuid";
 import { cn } from "~/lib/utils";
-import type { Project } from "~/payload-types";
-import use3DCarousel from "../../_hooks/use-3d-carousel";
-import CarouselNavButtons from "../CarouselNavButtons";
-import ProjectsItem from "../ProjectsItem";
+import type { Project as TProject } from "~/payload-types";
+import use3DCarousel from "../../../_hooks/use-3d-carousel";
+import CarouselNavButtons from "../../CarouselNavButtons";
+import Project from "../../Project/Project";
 export type Props = {
-	projects: Project[];
+	projects: TProject[];
 	radius: string;
 	className?: string;
 };
@@ -95,7 +95,7 @@ export default function ThreeDCarousel({ projects, className, radius }: Props) {
 										},
 									)}
 								>
-									<ProjectsItem className="h-full" project={project} />,
+									<Project className="h-full" project={project} />,
 								</div>
 							</li>
 						);

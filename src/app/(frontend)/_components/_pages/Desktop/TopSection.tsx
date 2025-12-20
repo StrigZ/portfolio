@@ -1,6 +1,6 @@
 import { cn } from "~/lib/utils";
-import use3DCarousel from "../../_hooks/use-3d-carousel";
-import useSlideRadius from "../../_hooks/use-slide-radius";
+import use3DCarousel from "../../../_hooks/use-3d-carousel";
+import useSlideRadius from "../../../_hooks/use-slide-radius";
 // import CarouselNavButtons from "../CarouselNavButtons";
 import ContactMe from "./ContactMe";
 
