@@ -40,7 +40,7 @@ export default function TopSection({ className }: Props) {
 					className="transform-3d pointer-events-none absolute inset-0 transition-transform duration-1000"
 					style={getContainerStyle()}
 				>
-					{[<ContactMe key={1} />].map((project, index) => {
+					{[<ContactMe className="h-full" key={1} />].map((project, index) => {
 						return (
 							<li
 								className={cn(

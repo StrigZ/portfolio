@@ -1,12 +1,19 @@
+import { cn } from "~/lib/utils";
 import { buttonVariants } from "../ui/button";
 
-export default function ContactMe() {
+type Props = { className?: string };
+export default function ContactMe({ className }: Props) {
 	return (
-		<div className="flex h-full flex-col items-center justify-center py-4">
-			<h1 className="bold mb-auto font-mono text-5xl tracking-wider">
+		<div
+			className={cn(
+				"flex flex-col items-center justify-center py-4",
+				className,
+			)}
+		>
+			<h1 className="bold mb-auto font-mono text-4xl tracking-wider sm:text-5xl">
 				CONTACT ME
 			</h1>
-			<ul className="mb-auto flex flex-col gap-2">
+			<ul className="mb-auto flex flex-col gap-2 text-center">
 				<li>
 					<a
 						className={buttonVariants({

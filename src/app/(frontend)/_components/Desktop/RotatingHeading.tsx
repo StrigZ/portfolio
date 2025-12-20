@@ -15,14 +15,14 @@ export default function RotatingHeading({ radius, className }: Props) {
 				<div className="transform-3d absolute inset-0 animate-[rotate_20s_linear_infinite]">
 					{[0, 120, 240].map((deg, i) => (
 						<h2
-							className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 font-bold text-6xl"
+							className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 select-none font-bold font-mono text-6xl tracking-wider"
 							// biome-ignore lint/suspicious/noArrayIndexKey: this array is fixed.
 							key={i}
 							style={{
 								transform: `rotateY(${deg}deg) translateZ(${radius})`,
 							}}
 						>
-							Projects
+							PROJECTS
 						</h2>
 					))}
 				</div>

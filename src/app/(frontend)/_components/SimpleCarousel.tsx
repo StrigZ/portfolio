@@ -49,7 +49,7 @@ export function SimpleCarousel({ projects, className }: Props) {
 					>
 						<div className="p-1">
 							<ProjectsItem
-								className="h-[500px] shadow-white/50 shadow-xs sm:h-[600px]"
+								className="h-[500px] shadow-white/50 shadow-xs"
 								project={project}
 							/>
 						</div>
