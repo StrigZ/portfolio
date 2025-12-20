@@ -51,7 +51,7 @@
 :root {
 	/* carousel */
 
-	--slide-width: min(33vw, 26rem);
+	--slide-width: min(40vw, 26rem);
 	/* carousel */
 
 	--radius: 0.625rem;
