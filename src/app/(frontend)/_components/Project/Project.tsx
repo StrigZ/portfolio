@@ -45,6 +45,7 @@ export default function Project({ project, className }: Props) {
 						href={project.demo_url}
 						rel="noreferrer noopener"
 						target="_blank"
+						draggable={false}
 					>
 						Live <Link size={16} />
 					</a>
@@ -57,6 +58,7 @@ export default function Project({ project, className }: Props) {
 						href={project.source_url}
 						rel="noreferrer noopener"
 						target="_blank"
+						draggable={false}
 					>
 						Source <Link size={16} />
 					</a>
