@@ -9,8 +9,28 @@ import withPlaiceholder from "@plaiceholder/next";
 /** @type {import("next").NextConfig} */
 const config = {
 	images: {
-		domains: ["localhost"],
-	},
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/api/media/file/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'portfolio-geso.vercel.app',
+        port: '',
+        pathname: '/api/media/file/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'blob.vercel-storage.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
+ 
 	typescript: { ignoreBuildErrors: true },
 };
 
