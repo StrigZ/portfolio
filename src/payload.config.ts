@@ -52,5 +52,5 @@ export default buildConfig({
 		],
 		fallback: true,
 	},
-	// serverURL: env.NEXT_PUBLIC_VERCEL_URL,
+	serverURL: env.NEXT_PUBLIC_VERCEL_URL,
 });
