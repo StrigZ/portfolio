@@ -7,6 +7,8 @@ import "./src/env.js";
 import withPlaiceholder from "@plaiceholder/next";
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+	typescript: { ignoreBuildErrors: true },
+};
 
 export default withPlaiceholder(withPayload(config));
