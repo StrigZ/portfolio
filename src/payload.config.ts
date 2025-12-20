@@ -2,6 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { vercelPostgresAdapter } from "@payloadcms/db-vercel-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 import { Media } from "./collections/Media";
@@ -32,7 +33,17 @@ export default buildConfig({
 		},
 	}),
 	sharp,
-	plugins: [],
+	plugins: [
+		vercelBlobStorage({
+			enabled: true, // Optional, defaults to true
+			// Specify which collections should use Vercel Blob
+			collections: {
+				media: true,
+			},
+			// Token provided by Vercel once Blob storage is added to your Vercel project
+			token: env.BLOB_READ_WRITE_TOKEN,
+		}),
+	],
 	localization: {
 		defaultLocale: "ru",
 		locales: [
@@ -41,5 +52,5 @@ export default buildConfig({
 		],
 		fallback: true,
 	},
-	serverURL: env.NEXT_PUBLIC_VERCEL_URL,
+	// serverURL: env.NEXT_PUBLIC_VERCEL_URL,
 });
