@@ -17,7 +17,7 @@ export default function Project({ project, className }: Props) {
 			<figure className="relative h-1/2 w-full shrink-0 md:hidden">
 				<PayloadMedia
 					className="object-cover object-top sm:object-fill sm:object-center"
-					media={project.featuredImage}
+					media={project.coverImage}
 				/>
 				<div className="absolute bottom-0 left-0 w-full bg-black/25 p-4 py-2">
 					<h3 className="w-full text-start text-2xl">{project.title}</h3>
@@ -29,7 +29,7 @@ export default function Project({ project, className }: Props) {
 					{project.title}
 				</h3>
 				<p className="scrollbar-thumb scrollbar-thin mb-auto max-h-full overflow-y-auto text-start text-sm">
-					{/* desc */}
+					{project.description}
 				</p>
 
 				<ProjectTechList technologies={project.technologies} />

@@ -10,6 +10,7 @@ export const Projects: CollectionConfig = {
 	slug: "projects",
 	fields: [
 		{ name: "title", required: true, type: "text" },
+		{ name: "description", required: true, type: "text" },
 		{
 			name: "slug",
 			type: "text",
@@ -19,7 +20,7 @@ export const Projects: CollectionConfig = {
 			admin: { hidden: true },
 		},
 		{
-			name: "featuredImage",
+			name: "coverImage",
 			type: "upload",
 			relationTo: "media",
 			required: true,

@@ -169,8 +169,9 @@ export interface Media {
 export interface Project {
   id: number;
   title: string;
+  description: string;
   slug: string;
-  featuredImage: number | Media;
+  coverImage: number | Media;
   demo_url: string;
   technologies?:
     | {
@@ -308,8 +309,9 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
   slug?: T;
-  featuredImage?: T;
+  coverImage?: T;
   demo_url?: T;
   technologies?:
     | T
