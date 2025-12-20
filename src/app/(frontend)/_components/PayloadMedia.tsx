@@ -8,6 +8,10 @@ export default function PayloadMedia({ media, className }: Props) {
 		throw new Error("PayloadMedia: Media is not accessible!");
 	}
 
+	if (!media.url) {
+		throw new Error("PayloadMedia: url and blurDataUrl are missing!");
+	}
+
 	return (
 		<Image
 			alt={media.alt}

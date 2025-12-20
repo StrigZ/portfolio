@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     projects: Project;
+    technology: Technology;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    technology: TechnologySelect<false> | TechnologySelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -88,10 +90,10 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  fallbackLocale: null;
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('ru' | 'en') | ('ru' | 'en')[];
   globals: {};
   globalsSelect: {};
-  locale: null;
+  locale: 'ru' | 'en';
   user: User & {
     collection: 'users';
   };
@@ -149,7 +151,7 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
-  blurDataUrl: string;
+  blurDataUrl?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -175,12 +177,22 @@ export interface Project {
   demo_url: string;
   technologies?:
     | {
-        name?: string | null;
-        icon: number | Media;
+        technology: number | Technology;
         id?: string | null;
       }[]
     | null;
   source_url: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "technology".
+ */
+export interface Technology {
+  id: number;
+  name: string;
+  icon: number | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -219,6 +231,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'technology';
+        value: number | Technology;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -316,11 +332,20 @@ export interface ProjectsSelect<T extends boolean = true> {
   technologies?:
     | T
     | {
-        name?: T;
-        icon?: T;
+        technology?: T;
         id?: T;
       };
   source_url?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "technology_select".
+ */
+export interface TechnologySelect<T extends boolean = true> {
+  name?: T;
+  icon?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -32,7 +32,9 @@ export default function Project({ project, className }: Props) {
 					{project.description}
 				</p>
 
-				<ProjectTechList technologies={project.technologies} />
+				{project.technologies && (
+					<ProjectTechList technologies={project.technologies} />
+				)}
 
 				<div className="flex w-full justify-between gap-2">
 					<a

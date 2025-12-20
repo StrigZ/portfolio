@@ -11,34 +11,9 @@ export default async function page() {
 			<main className="relative h-full">
 				<DesktopPage
 					className="mx-auto hidden max-w-5xl md:block"
-					projects={[
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-					]}
+					projects={projects}
 				/>
-				<MobilePage
-					className="h-full w-full md:hidden"
-					projects={[
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-						...projects,
-					]}
-				/>
+				<MobilePage className="h-full w-full md:hidden" projects={projects} />
 			</main>
 		</>
 	);

@@ -6,6 +6,7 @@ import { buildConfig } from "payload";
 import sharp from "sharp";
 import { Media } from "./collections/Media";
 import { Projects } from "./collections/projects/config";
+import { Technologies } from "./collections/Technologies";
 import { Users } from "./collections/Users";
 
 const filename = fileURLToPath(import.meta.url);
@@ -18,7 +19,7 @@ export default buildConfig({
 			baseDir: path.resolve(dirname),
 		},
 	},
-	collections: [Users, Media, Projects],
+	collections: [Users, Media, Projects, Technologies],
 	editor: lexicalEditor(),
 	secret: process.env.PAYLOAD_SECRET || "",
 	typescript: {
@@ -31,4 +32,12 @@ export default buildConfig({
 	}),
 	sharp,
 	plugins: [],
+	localization: {
+		defaultLocale: "ru",
+		locales: [
+			{ label: "Russian", code: "ru" },
+			{ label: "English", code: "en" },
+		],
+		fallback: true,
+	},
 });

@@ -1,12 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import { useMemo } from "react";
-import { v4 as uuid } from "uuid";
 import { cn } from "~/lib/utils";
 import type { Project as TProject } from "~/payload-types";
 import use3DCarousel from "../../../_hooks/use-3d-carousel";
 import CarouselNavButtons from "../../CarouselNavButtons";
+import PayloadMedia from "../../PayloadMedia";
 import Project from "../../Project/Project";
 export type Props = {
 	projects: TProject[];
@@ -30,12 +28,6 @@ export default function ThreeDCarousel({ projects, className, radius }: Props) {
 		radius,
 	});
 
-	// TODO: remove random when done testing
-	const carouselItems = useMemo(
-		() => projects.map((project) => ({ ...project, id: uuid() })),
-		[projects],
-	);
-
 	return (
 		<div
 			className={cn(
@@ -51,55 +43,46 @@ export default function ThreeDCarousel({ projects, className, radius }: Props) {
 					className="transform-3d pointer-events-none absolute inset-x-0 top-0 transition-transform duration-1000"
 					style={getContainerStyle()}
 				>
-					{carouselItems.map((project, index) => {
-						if (typeof project.featuredImage === "number")
-							throw new Error("carouselItems: Media is not accessible!");
-
-						const { blurDataUrl, url, alt } = project.featuredImage;
-						return (
-							// biome-ignore lint/a11y/useKeyWithClickEvents: I don't see a way to implement this logic with keyboard
-							<li
+					{projects.map((project, index) => (
+						// biome-ignore lint/a11y/useKeyWithClickEvents: <I don't see a way to implement this logic with keyboard>
+						<li
+							className={cn(
+								"group pointer-events-auto absolute aspect-4/3 overflow-hidden rounded-md border-2 border-white shadow-aa transition-transform duration-1000",
+								{
+									"cursor-pointer": index !== selectedIndex,
+								},
+							)}
+							key={project.id}
+							onClick={() => {
+								updateRotationIndex(index);
+								updateSelectedIndex(index);
+							}}
+							style={{
+								...getSlideStyle(index),
+								left: "calc(50% - (var(--slide-width) / 2))",
+								width: "var(--slide-width)",
+							}}
+						>
+							<PayloadMedia
+								className="object-cover"
+								media={project.coverImage}
+							/>
+							<div
 								className={cn(
-									"group pointer-events-auto absolute aspect-4/3 overflow-hidden rounded-md border-2 border-white shadow-aa transition-transform duration-1000",
+									"absolute inset-0 select-none bg-black/70 text-center opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100",
 									{
-										"cursor-pointer": index !== selectedIndex,
+										"pointer-events-none **:overflow-hidden": ![
+											normalizeIndex(selectedIndex - 1),
+											selectedIndex,
+											normalizeIndex(selectedIndex + 1),
+										].includes(index),
 									},
 								)}
-								key={project.id}
-								onClick={() => {
-									updateRotationIndex(index);
-									updateSelectedIndex(index);
-								}}
-								style={{
-									...getSlideStyle(index),
-									left: "calc(50% - (var(--slide-width) / 2))",
-									width: "var(--slide-width)",
-								}}
 							>
-								<Image
-									alt={alt ?? ""}
-									draggable={false}
-									fill
-									src={url ?? blurDataUrl}
-								/>
-
-								<div
-									className={cn(
-										"absolute inset-0 select-none bg-black/70 text-center opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100",
-										{
-											"pointer-events-none **:overflow-hidden": ![
-												normalizeIndex(selectedIndex - 1),
-												selectedIndex,
-												normalizeIndex(selectedIndex + 1),
-											].includes(index),
-										},
-									)}
-								>
-									<Project className="h-full" project={project} />,
-								</div>
-							</li>
-						);
-					})}
+								<Project className="h-full" project={project} />,
+							</div>
+						</li>
+					))}
 				</ul>
 			</div>
 			<CarouselNavButtons

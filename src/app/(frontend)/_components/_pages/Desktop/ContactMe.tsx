@@ -20,11 +20,11 @@ export default function ContactMe({ className }: Props) {
 							variant: "link",
 							className: "text-lg!",
 						})}
-						href="mailto:i@strigz.dev"
+						href="mailto:dev@strigz.ru"
 						rel="noreferrer noopener"
 						target="_blank"
 					>
-						i@strigz.dev
+						Email
 					</a>
 				</li>
 				<li>

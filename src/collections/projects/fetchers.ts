@@ -7,6 +7,7 @@ export async function getProjects() {
 	try {
 		const { docs: projects } = await payloadClient.find({
 			collection: "projects",
+			depth: 3,
 		});
 		return projects ?? [];
 	} catch (error) {

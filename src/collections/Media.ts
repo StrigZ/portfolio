@@ -15,7 +15,6 @@ export const Media: CollectionConfig = {
 		{
 			name: "blurDataUrl",
 			type: "text",
-			required: true,
 			admin: { hidden: true },
 		},
 	],

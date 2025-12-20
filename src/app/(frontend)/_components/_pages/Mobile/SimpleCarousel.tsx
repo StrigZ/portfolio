@@ -44,8 +44,7 @@ export function SimpleCarousel({ projects, className }: Props) {
 				{projects.map((project) => (
 					<CarouselItemWrapper
 						className="w-full pl-0 sm:basis-1/2 sm:pl-4 md:pl-4"
-						// TODO: remove Math.random() when done testing
-						key={project.id + Math.random()}
+						key={project.id}
 					>
 						<div className="p-1">
 							<Project

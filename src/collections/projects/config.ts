@@ -31,13 +31,9 @@ export const Projects: CollectionConfig = {
 			type: "array",
 			fields: [
 				{
-					name: "name",
-					type: "text",
-				},
-				{
-					name: "icon",
-					type: "upload",
-					relationTo: "media",
+					name: "technology",
+					type: "relationship",
+					relationTo: "technology",
 					required: true,
 				},
 			],
