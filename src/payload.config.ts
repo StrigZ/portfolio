@@ -5,6 +5,8 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import { buildConfig } from "payload";
 import sharp from "sharp";
+import { Contacts } from "./collections/Contacts";
+import { Headings } from "./collections/Headings";
 import { Media } from "./collections/Media";
 import { Projects } from "./collections/projects/config";
 import { Technologies } from "./collections/Technologies";
@@ -20,7 +22,7 @@ export default buildConfig({
 			baseDir: path.resolve(dirname),
 		},
 	},
-	collections: [Users, Media, Projects, Technologies],
+	collections: [Users, Media, Projects, Technologies, Headings, Contacts],
 	editor: lexicalEditor(),
 	secret: process.env.PAYLOAD_SECRET || "",
 	typescript: {

@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     projects: Project;
     technology: Technology;
+    headings: Heading;
+    contacts: Contact;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +84,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     technology: TechnologySelect<false> | TechnologySelect<true>;
+    headings: HeadingsSelect<false> | HeadingsSelect<true>;
+    contacts: ContactsSelect<false> | ContactsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -198,6 +202,29 @@ export interface Technology {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "headings".
+ */
+export interface Heading {
+  id: number;
+  contactMe: string;
+  projects: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts".
+ */
+export interface Contact {
+  id: number;
+  name: string;
+  link: string;
+  icon: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -235,6 +262,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'technology';
         value: number | Technology;
+      } | null)
+    | ({
+        relationTo: 'headings';
+        value: number | Heading;
+      } | null)
+    | ({
+        relationTo: 'contacts';
+        value: number | Contact;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -345,6 +380,27 @@ export interface ProjectsSelect<T extends boolean = true> {
  */
 export interface TechnologySelect<T extends boolean = true> {
   name?: T;
+  icon?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "headings_select".
+ */
+export interface HeadingsSelect<T extends boolean = true> {
+  contactMe?: T;
+  projects?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts_select".
+ */
+export interface ContactsSelect<T extends boolean = true> {
+  name?: T;
+  link?: T;
   icon?: T;
   updatedAt?: T;
   createdAt?: T;
