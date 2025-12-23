@@ -36,11 +36,13 @@ export function SimpleCarousel({ projects, className }: Props) {
 			plugins={[
 				Autoplay({
 					delay: 5000,
+					stopOnInteraction: true,
+					stopOnMouseEnter: true,
 				}),
 			]}
 			setApi={setApi}
 		>
-			<CarouselContent className="sm:-ml-2 md:-ml-4 ml-0 w-full">
+			<CarouselContent className="ml-0 w-full sm:-ml-2 md:-ml-4">
 				{projects.map((project) => (
 					<CarouselItemWrapper
 						className="w-full pl-0 sm:basis-1/2 sm:pl-4 md:pl-4"
