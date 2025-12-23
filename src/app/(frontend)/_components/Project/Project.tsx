@@ -20,7 +20,7 @@ export default function Project({ project, className }: Props) {
 					hasBlur
 					media={project.coverImage}
 				/>
-				<div className="absolute bottom-0 left-0 w-full bg-black/50 p-4 py-2">
+				<div className="absolute bottom-0 left-0 w-full bg-black/50 p-2">
 					<h3 className="w-full text-start text-2xl">{project.title}</h3>
 				</div>
 			</figure>
