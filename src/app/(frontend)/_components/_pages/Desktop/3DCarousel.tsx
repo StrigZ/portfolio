@@ -65,6 +65,7 @@ export default function ThreeDCarousel({ projects, className, radius }: Props) {
 						>
 							<PayloadMedia
 								className="object-cover"
+								hasBlur
 								media={project.coverImage}
 							/>
 							<div

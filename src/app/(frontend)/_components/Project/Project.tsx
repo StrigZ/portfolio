@@ -17,6 +17,7 @@ export default function Project({ project, className }: Props) {
 			<figure className="relative h-1/2 w-full shrink-0 md:hidden">
 				<PayloadMedia
 					className="object-cover object-top sm:object-fill sm:object-center"
+					hasBlur
 					media={project.coverImage}
 				/>
 				<div className="absolute bottom-0 left-0 w-full bg-black/25 p-4 py-2">
@@ -42,10 +43,10 @@ export default function Project({ project, className }: Props) {
 							className:
 								"flex flex-1 items-center justify-center gap-2 hover:underline",
 						})}
+						draggable={false}
 						href={project.demo_url}
 						rel="noreferrer noopener"
 						target="_blank"
-						draggable={false}
 					>
 						Live <Link size={16} />
 					</a>
@@ -55,10 +56,10 @@ export default function Project({ project, className }: Props) {
 							className:
 								"flex flex-1 items-center justify-center gap-2 hover:underline",
 						})}
+						draggable={false}
 						href={project.source_url}
 						rel="noreferrer noopener"
 						target="_blank"
-						draggable={false}
 					>
 						Source <Link size={16} />
 					</a>
