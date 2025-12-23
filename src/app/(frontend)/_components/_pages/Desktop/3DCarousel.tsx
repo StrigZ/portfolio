@@ -1,18 +1,19 @@
 "use client";
 
+import { useContentProvider } from "~/app/(frontend)/_providers/content-provider";
 import { cn } from "~/lib/utils";
-import type { Project as TProject } from "~/payload-types";
 import use3DCarousel from "../../../_hooks/use-3d-carousel";
 import CarouselNavButtons from "../../CarouselNavButtons";
 import PayloadMedia from "../../PayloadMedia";
 import Project from "../../Project/Project";
 export type Props = {
-	projects: TProject[];
 	radius: string;
 	className?: string;
 };
 
-export default function ThreeDCarousel({ projects, className, radius }: Props) {
+export default function ThreeDCarousel({ className, radius }: Props) {
+	const { projects } = useContentProvider();
+
 	const {
 		handlers,
 		selectedIndex,
@@ -27,7 +28,6 @@ export default function ThreeDCarousel({ projects, className, radius }: Props) {
 		totalSlides: projects.length,
 		radius,
 	});
-
 	return (
 		<div
 			className={cn(

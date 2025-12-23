@@ -1,8 +1,13 @@
+"use client";
+
+import { useContentProvider } from "~/app/(frontend)/_providers/content-provider";
 import { cn } from "~/lib/utils";
+// import PayloadMedia from "../../PayloadMedia";
 import { buttonVariants } from "../../ui/button";
 
 type Props = { className?: string };
 export default function ContactMe({ className }: Props) {
+	const { contacts, headings } = useContentProvider();
 	return (
 		<div
 			className={cn(
@@ -11,35 +16,28 @@ export default function ContactMe({ className }: Props) {
 			)}
 		>
 			<h1 className="bold mb-auto font-mono text-4xl tracking-wider sm:text-5xl">
-				CONTACT ME
+				{headings?.contactMe.toUpperCase()}
 			</h1>
 			<ul className="mb-auto flex flex-col gap-2 text-center">
-				<li>
-					<a
-						className={buttonVariants({
-							variant: "link",
-							className: "text-lg!",
-						})}
-						href="mailto:dev@strigz.ru"
-						rel="noreferrer noopener"
-						target="_blank"
-					>
-						Email
-					</a>
-				</li>
-				<li>
-					<a
-						className={buttonVariants({
-							variant: "link",
-							className: "text-lg!",
-						})}
-						href="https://github.com/StrigZ"
-						rel="noreferrer noopener"
-						target="_blank"
-					>
-						GitHub
-					</a>
-				</li>
+				{contacts.map(({ id, name, icon, link }) => (
+					<li key={id}>
+						<a
+							className={buttonVariants({
+								variant: "link",
+								className:
+									"justify-start! flex items-center gap-1 p-0! text-lg!",
+							})}
+							href={link}
+							rel="noreferrer noopener"
+							target="_blank"
+						>
+							{/* <div className="relative h-8 w-8">
+								<PayloadMedia media={icon} />
+							</div> */}
+							{name}
+						</a>
+					</li>
+				))}
 			</ul>
 		</div>
 	);

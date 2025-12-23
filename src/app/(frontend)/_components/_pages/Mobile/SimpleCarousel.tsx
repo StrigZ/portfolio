@@ -2,8 +2,8 @@
 
 import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useState } from "react";
+import { useContentProvider } from "~/app/(frontend)/_providers/content-provider";
 import { cn } from "~/lib/utils";
-import type { Project as TProject } from "~/payload-types";
 import CarouselNavButtons from "../../CarouselNavButtons";
 import Project from "../../Project/Project";
 import {
@@ -14,11 +14,11 @@ import {
 } from "../../ui/carousel";
 
 type Props = {
-	projects: TProject[];
 	className?: string;
 };
-export function SimpleCarousel({ projects, className }: Props) {
+export function SimpleCarousel({ className }: Props) {
 	const [api, setApi] = useState<CarouselApi>();
+	const { projects } = useContentProvider();
 
 	useEffect(() => {
 		if (!api) {

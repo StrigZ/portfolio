@@ -1,14 +1,15 @@
 "use client";
 
+import { useContentProvider } from "~/app/(frontend)/_providers/content-provider";
 import { cn } from "~/lib/utils";
-import type { Project } from "~/payload-types";
 import useSlideRadius from "../../../_hooks/use-slide-radius";
 import ThreeDCarousel from "./3DCarousel";
 import RotatingHeading from "./RotatingHeading";
 import TopSection from "./TopSection";
 
-type Props = { projects: Project[]; className?: string };
-export default function DesktopPage({ className, projects }: Props) {
+type Props = { className?: string };
+export default function DesktopPage({ className }: Props) {
+	const { projects } = useContentProvider();
 	const { radius } = useSlideRadius({ len: projects.length });
 
 	return (
@@ -20,7 +21,6 @@ export default function DesktopPage({ className, projects }: Props) {
 				<RotatingHeading className="perspective-distant" radius={radius} />
 				<ThreeDCarousel
 					className="perspective-distant h-full w-full"
-					projects={projects}
 					radius={radius}
 				/>
 			</section>
