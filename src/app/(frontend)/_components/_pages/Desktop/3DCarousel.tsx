@@ -47,7 +47,7 @@ export default function ThreeDCarousel({ projects, className, radius }: Props) {
 						// biome-ignore lint/a11y/useKeyWithClickEvents: <I don't see a way to implement this logic with keyboard>
 						<li
 							className={cn(
-								"group pointer-events-auto absolute aspect-4/3 overflow-hidden rounded-md border-2 border-white shadow-aa transition-transform duration-1000",
+								"group pointer-events-auto absolute aspect-4/3 overflow-hidden rounded-md border-2 shadow-sm transition-transform duration-1000",
 								{
 									"cursor-pointer": index !== selectedIndex,
 								},
@@ -70,7 +70,7 @@ export default function ThreeDCarousel({ projects, className, radius }: Props) {
 							/>
 							<div
 								className={cn(
-									"absolute inset-0 select-none bg-black/70 text-center opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100",
+									"absolute inset-0 select-none bg-black/70 text-center text-white opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100",
 									{
 										"pointer-events-none **:overflow-hidden": ![
 											normalizeIndex(selectedIndex - 1),

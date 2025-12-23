@@ -20,12 +20,12 @@ export default function Project({ project, className }: Props) {
 					hasBlur
 					media={project.coverImage}
 				/>
-				<div className="absolute bottom-0 left-0 w-full bg-black/50 p-2">
+				<div className="absolute bottom-0 left-0 w-full bg-black/50 p-2 text-white">
 					<h3 className="w-full text-start text-2xl">{project.title}</h3>
 				</div>
 			</figure>
 
-			<div className="flex h-1/2 flex-col gap-2 p-2 md:h-full xl:gap-4 xl:p-4">
+			<div className="flex h-1/2 flex-col gap-2 border-x-2 border-b-2 p-2 md:h-full md:border-none xl:gap-4 xl:p-4">
 				<h3 className="hidden w-full text-start text-2xl md:inline">
 					{project.title}
 				</h3>
@@ -54,7 +54,7 @@ export default function Project({ project, className }: Props) {
 						className={buttonVariants({
 							variant: "outline",
 							className:
-								"flex flex-1 items-center justify-center gap-2 hover:underline",
+								"flex flex-1 items-center justify-center gap-2 text-primary hover:underline",
 						})}
 						draggable={false}
 						href={project.source_url}
