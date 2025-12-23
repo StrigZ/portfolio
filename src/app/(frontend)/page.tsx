@@ -1,16 +1,19 @@
 import { getProjects } from "~/collections/projects/fetchers";
 import DesktopPage from "./_components/_pages/Desktop/DesktopPage";
 import MobilePage from "./_components/_pages/Mobile/MobilePage";
-import { ThemeButton } from "./_components/ThemeButton";
+import Header from "./_components/Header";
 
-export default async function page() {
-	const projects = await getProjects();
+export default async function page({
+	searchParams,
+}: {
+	searchParams: Promise<{ locale?: "en" | "ru" }>;
+}) {
+	const { locale } = await searchParams;
+	const projects = await getProjects({ locale });
 
 	return (
 		<>
-			<header className="fixed inset-x-0 top-0 z-50 p-2 md:inset-x-auto md:inset-y-0 md:left-0">
-				<ThemeButton />
-			</header>
+			<Header locale={locale} />
 			<main className="relative h-full">
 				<DesktopPage
 					className="mx-auto hidden max-w-5xl md:block"
