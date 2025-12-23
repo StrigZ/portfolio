@@ -10,7 +10,7 @@ export const Projects: CollectionConfig = {
 	slug: "projects",
 	fields: [
 		{ name: "title", required: true, type: "text" },
-		{ name: "description", required: true, type: "text" },
+		{ name: "description", required: true, type: "textarea" },
 		{
 			name: "slug",
 			type: "text",
