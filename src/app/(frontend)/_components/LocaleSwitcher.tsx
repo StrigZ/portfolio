@@ -10,9 +10,10 @@ export default function LocaleSwitcher({ locales, activeLocale }: Props) {
 				<li key={code}>
 					<Link
 						className={cn(
-							"flex aspect-square h-9 w-9 items-center justify-center border bg-background text-center",
+							"flex aspect-square h-9 w-9 items-center justify-center border text-center",
 							{
-								"border-none bg-muted": code === activeLocale,
+								"border-none bg-foreground text-background":
+									code === activeLocale,
 							},
 						)}
 						href={`/?locale=${code}`}
