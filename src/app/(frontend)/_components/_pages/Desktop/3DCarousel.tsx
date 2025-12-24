@@ -27,8 +27,11 @@ export default function ThreeDCarousel({ className, radius }: Props) {
 		normalizeIndex,
 		updateSelectedIndex,
 		updateRotationIndex,
+		handleInteractionEnd,
+		handleInteractionStart,
 	} = use3DCarousel({
 		totalSlides: projects.length,
+		shouldAutoRotate: true,
 		radius,
 		animationDuration: ANIMATION_DURATION_IN_MS,
 	});
@@ -76,6 +79,7 @@ export default function ThreeDCarousel({ className, radius }: Props) {
 								hasBlur
 								media={project.coverImage}
 							/>
+							{/** biome-ignore lint/a11y/noStaticElementInteractions: <false positive> */}
 							<div
 								className={cn(
 									"absolute inset-0 select-none bg-black/70 text-center text-white opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100",
@@ -87,6 +91,9 @@ export default function ThreeDCarousel({ className, radius }: Props) {
 										].includes(index),
 									},
 								)}
+								onFocus={handleInteractionStart}
+								onMouseLeave={handleInteractionEnd}
+								onMouseOver={handleInteractionStart}
 							>
 								<Project className="h-full" project={project} />,
 							</div>

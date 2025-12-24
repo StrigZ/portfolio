@@ -16,17 +16,23 @@ type Props = {
 	radius: string;
 	xTilt?: number;
 	animationDuration?: number;
+	shouldAutoRotate?: boolean;
+	autoRotationDelay?: number;
 };
 export default function use3DCarousel({
 	totalSlides,
 	radius,
 	xTilt = -9.5,
 	animationDuration = 1000,
+	shouldAutoRotate = false,
+	autoRotationDelay = 3000,
 }: Props) {
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [rotationIndex, setRotationIndex] = useState(0);
 	const [dragRotation, setDragRotation] = useState(0);
 	const [isChanging, setIsChanging] = useState(false);
+	const [isInteracting, setIsInteracting] = useState(false);
+	const [isTabActive, setIsTabActive] = useState(true);
 
 	const len = useMemo(() => totalSlides, [totalSlides]);
 	const theta = useMemo(() => 360 / len, [len]);
@@ -64,19 +70,28 @@ export default function use3DCarousel({
 		setSelectedIndex((i) => normalizeIndex(i - 1));
 	}, [normalizeIndex]);
 
+	const handleInteractionStart = () => {
+		setIsInteracting(true);
+	};
+	const handleInteractionEnd = () => {
+		setIsInteracting(false);
+	};
+
 	const handlers = useSwipeable({
 		trackMouse: true,
 		preventScrollOnSwipe: true,
 		delta: 25,
-
 		onSwiping: ({ deltaX, deltaY }) => {
+			setIsInteracting(true);
 			if (Math.abs(deltaY) > Math.abs(deltaX)) return;
 
 			const clamped = Math.max(-MAX_DRAG_PX, Math.min(MAX_DRAG_PX, deltaX));
 			const fraction = clamped / MAX_DRAG_PX;
 			setDragRotation(-fraction * theta);
 		},
-
+		onTouchEndOrOnMouseUp: () => {
+			setIsInteracting(false);
+		},
 		onSwiped: ({ deltaX, velocity, deltaY }) => {
 			setDragRotation(0);
 
@@ -97,6 +112,22 @@ export default function use3DCarousel({
 
 		setRotationIndex((r) => r + shortest);
 	};
+
+	useEffect(() => {
+		const handleVisibilityChange = () => {
+			if (document.hidden) {
+				setIsTabActive(false);
+			} else {
+				setIsTabActive(true);
+			}
+		};
+
+		document.addEventListener("visibilitychange", handleVisibilityChange);
+
+		return () => {
+			document.removeEventListener("visibilitychange", handleVisibilityChange);
+		};
+	}, []);
 
 	useEffect(() => {
 		const waitForAnimation = () => {
@@ -124,6 +155,13 @@ export default function use3DCarousel({
 		};
 	}, [next, prev, isChanging, animationDuration]);
 
+	useEffect(() => {
+		if (!shouldAutoRotate || isInteracting || !isTabActive) return;
+		const intervalId = setInterval(next, autoRotationDelay);
+
+		return () => clearInterval(intervalId);
+	}, [next, shouldAutoRotate, autoRotationDelay, isInteracting, isTabActive]);
+
 	return {
 		selectedIndex,
 		handlers,
@@ -135,5 +173,7 @@ export default function use3DCarousel({
 		updateRotationIndex,
 		next,
 		prev,
+		handleInteractionStart,
+		handleInteractionEnd,
 	};
 }
