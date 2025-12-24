@@ -1,11 +1,15 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useContentProvider } from "~/app/(frontend)/_providers/content-provider";
 import { cn } from "~/lib/utils";
 import use3DCarousel from "../../../_hooks/use-3d-carousel";
 import CarouselNavButtons from "../../CarouselNavButtons";
 import PayloadMedia from "../../PayloadMedia";
 import Project from "../../Project/Project";
+
+const ANIMATION_DURATION_IN_MS = 1000;
+
 export type Props = {
 	radius: string;
 	className?: string;
@@ -13,6 +17,7 @@ export type Props = {
 
 export default function ThreeDCarousel({ className, radius }: Props) {
 	const { projects } = useContentProvider();
+	const [isChanging, setIsChanging] = useState(false);
 
 	const {
 		handlers,
@@ -28,6 +33,33 @@ export default function ThreeDCarousel({ className, radius }: Props) {
 		totalSlides: projects.length,
 		radius,
 	});
+
+	useEffect(() => {
+		const waitForAnimation = () => {
+			setIsChanging(true);
+
+			const timeoutId = setTimeout(() => {
+				setIsChanging(false);
+			}, ANIMATION_DURATION_IN_MS);
+
+			return () => clearTimeout(timeoutId);
+		};
+
+		const handleKeyPress = (e: KeyboardEvent) => {
+			if (isChanging) return;
+			waitForAnimation();
+
+			if (e.key === "ArrowRight") return next();
+			if (e.key === "ArrowLeft") return prev();
+		};
+
+		document.addEventListener("keydown", handleKeyPress);
+
+		return () => {
+			document.removeEventListener("keydown", handleKeyPress);
+		};
+	}, [next, prev, isChanging]);
+
 	return (
 		<div
 			className={cn(
@@ -40,8 +72,11 @@ export default function ThreeDCarousel({ className, radius }: Props) {
 				{...handlers}
 			>
 				<ul
-					className="transform-3d pointer-events-none absolute inset-x-0 top-0 transition-transform duration-1000"
-					style={getContainerStyle()}
+					className="transform-3d pointer-events-none absolute inset-x-0 top-0 transition-transform"
+					style={{
+						...getContainerStyle(),
+						transitionDuration: `${ANIMATION_DURATION_IN_MS}ms`,
+					}}
 				>
 					{projects.map((project, index) => (
 						// biome-ignore lint/a11y/useKeyWithClickEvents: <I don't see a way to implement this logic with keyboard>
