@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useContentProvider } from "~/app/(frontend)/_providers/content-provider";
 import { cn } from "~/lib/utils";
 import use3DCarousel from "../../../_hooks/use-3d-carousel";
@@ -17,7 +16,6 @@ export type Props = {
 
 export default function ThreeDCarousel({ className, radius }: Props) {
 	const { projects } = useContentProvider();
-	const [isChanging, setIsChanging] = useState(false);
 
 	const {
 		handlers,
@@ -32,33 +30,8 @@ export default function ThreeDCarousel({ className, radius }: Props) {
 	} = use3DCarousel({
 		totalSlides: projects.length,
 		radius,
+		animationDuration: ANIMATION_DURATION_IN_MS,
 	});
-
-	useEffect(() => {
-		const waitForAnimation = () => {
-			setIsChanging(true);
-
-			const timeoutId = setTimeout(() => {
-				setIsChanging(false);
-			}, ANIMATION_DURATION_IN_MS);
-
-			return () => clearTimeout(timeoutId);
-		};
-
-		const handleKeyPress = (e: KeyboardEvent) => {
-			if (isChanging) return;
-			waitForAnimation();
-
-			if (e.key === "ArrowRight") return next();
-			if (e.key === "ArrowLeft") return prev();
-		};
-
-		document.addEventListener("keydown", handleKeyPress);
-
-		return () => {
-			document.removeEventListener("keydown", handleKeyPress);
-		};
-	}, [next, prev, isChanging]);
 
 	return (
 		<div

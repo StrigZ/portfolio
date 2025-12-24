@@ -1,19 +1,33 @@
 "use client";
 
-import { type CSSProperties, useCallback, useMemo, useState } from "react";
+import {
+	type CSSProperties,
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 import { useSwipeable } from "react-swipeable";
 
 const MAX_DRAG_PX = 120;
 
-type Props = { totalSlides: number; radius: string; xTilt?: number };
+type Props = {
+	totalSlides: number;
+	radius: string;
+	xTilt?: number;
+	animationDuration?: number;
+};
 export default function use3DCarousel({
 	totalSlides,
 	radius,
 	xTilt = -9.5,
+	animationDuration = 1000,
 }: Props) {
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [rotationIndex, setRotationIndex] = useState(0);
 	const [dragRotation, setDragRotation] = useState(0);
+	const [isChanging, setIsChanging] = useState(false);
+
 	const len = useMemo(() => totalSlides, [totalSlides]);
 	const theta = useMemo(() => 360 / len, [len]);
 
@@ -83,6 +97,32 @@ export default function use3DCarousel({
 
 		setRotationIndex((r) => r + shortest);
 	};
+
+	useEffect(() => {
+		const waitForAnimation = () => {
+			setIsChanging(true);
+
+			const timeoutId = setTimeout(() => {
+				setIsChanging(false);
+			}, animationDuration);
+
+			return () => clearTimeout(timeoutId);
+		};
+
+		const handleKeyPress = (e: KeyboardEvent) => {
+			if (isChanging) return;
+			waitForAnimation();
+
+			if (e.key === "ArrowRight") return next();
+			if (e.key === "ArrowLeft") return prev();
+		};
+
+		document.addEventListener("keydown", handleKeyPress);
+
+		return () => {
+			document.removeEventListener("keydown", handleKeyPress);
+		};
+	}, [next, prev, isChanging, animationDuration]);
 
 	return {
 		selectedIndex,
