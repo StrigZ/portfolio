@@ -49,10 +49,7 @@ export function SimpleCarousel({ className }: Props) {
 						key={project.id}
 					>
 						<div className="p-1">
-							<Project
-								className="h-[500px] rounded-md shadow"
-								project={project}
-							/>
+							<Project className="h-125 rounded-md shadow" project={project} />
 						</div>
 					</CarouselItemWrapper>
 				))}
