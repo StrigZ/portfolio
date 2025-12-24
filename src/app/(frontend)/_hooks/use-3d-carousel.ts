@@ -15,8 +15,10 @@ const MAX_DRAG_PX = 120;
 type Props = {
 	totalSlides: number;
 	radius: string;
+
 	xTilt?: number;
 	animationDuration?: number;
+	shouldRotate?: boolean;
 	shouldAutoRotate?: boolean;
 	autoRotationDelay?: number;
 };
@@ -26,6 +28,7 @@ export default function use3DCarousel({
 	xTilt = -9.5,
 	animationDuration = 1000,
 	shouldAutoRotate = false,
+	shouldRotate = false,
 	autoRotationDelay = 3000,
 }: Props) {
 	const [selectedIndex, setSelectedIndex] = useState(0);
@@ -131,7 +134,7 @@ export default function use3DCarousel({
 	}, [animationDuration]);
 
 	useEffect(() => {
-		if (isChanging) return;
+		if (!shouldRotate || isChanging) return;
 
 		const handleKeyPress = (e: KeyboardEvent) => {
 			if (!(e.key === "ArrowRight" || e.key === "ArrowLeft")) return;
@@ -148,7 +151,7 @@ export default function use3DCarousel({
 		return () => {
 			document.removeEventListener("keydown", handleKeyPress);
 		};
-	}, [next, prev, isChanging, waitForAnimation]);
+	}, [next, prev, isChanging, waitForAnimation, shouldRotate]);
 
 	useEffect(() => {
 		if (!shouldAutoRotate || isInteracting || !isTabActive || isChanging)
