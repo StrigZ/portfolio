@@ -22,8 +22,8 @@ export default function ThreeDCarousel({ className, radius }: Props) {
 		selectedIndex,
 		getContainerStyle,
 		getSlideStyle,
-		next,
-		prev,
+		handleShowNextSlide,
+		handleShowPrevSlide,
 		normalizeIndex,
 		updateSelectedIndex,
 		updateRotationIndex,
@@ -103,8 +103,8 @@ export default function ThreeDCarousel({ className, radius }: Props) {
 			</div>
 			<CarouselNavButtons
 				className="pointer-events-none absolute inset-x-0 bottom-2 w-full justify-between gap-6"
-				onNext={next}
-				onPrev={prev}
+				onNext={handleShowNextSlide}
+				onPrev={handleShowPrevSlide}
 			/>
 		</div>
 	);

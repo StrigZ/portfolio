@@ -57,6 +57,16 @@ export default function use3DCarousel({
 	const handleInteractionEnd = () => {
 		setIsInteracting(false);
 	};
+	const handleShowNextSlide = () => {
+		if (isChanging) return;
+		waitForAnimation();
+		next();
+	};
+	const handleShowPrevSlide = () => {
+		if (isChanging) return;
+		waitForAnimation();
+		prev();
+	};
 	const getSlideStyle = useCallback(
 		(index: number): CSSProperties => {
 			return {
@@ -110,24 +120,27 @@ export default function use3DCarousel({
 		setRotationIndex((r) => r + shortest);
 	};
 
+	const waitForAnimation = useCallback(() => {
+		setIsChanging(true);
+
+		const timeoutId = setTimeout(() => {
+			setIsChanging(false);
+		}, animationDuration);
+
+		return timeoutId;
+	}, [animationDuration]);
+
 	useEffect(() => {
-		if (!shouldAutoRotate || isChanging) return;
-
-		const waitForAnimation = () => {
-			setIsChanging(true);
-
-			const timeoutId = setTimeout(() => {
-				setIsChanging(false);
-			}, animationDuration);
-
-			return () => clearTimeout(timeoutId);
-		};
+		if (isChanging) return;
 
 		const handleKeyPress = (e: KeyboardEvent) => {
-			waitForAnimation();
+			if (!(e.key === "ArrowRight" || e.key === "ArrowLeft")) return;
 
-			if (e.key === "ArrowRight") return next();
-			if (e.key === "ArrowLeft") return prev();
+			if (e.key === "ArrowRight") next();
+			if (e.key === "ArrowLeft") prev();
+
+			const timeoutId = waitForAnimation();
+			return () => clearTimeout(timeoutId);
 		};
 
 		document.addEventListener("keydown", handleKeyPress);
@@ -135,14 +148,23 @@ export default function use3DCarousel({
 		return () => {
 			document.removeEventListener("keydown", handleKeyPress);
 		};
-	}, [next, prev, isChanging, animationDuration, shouldAutoRotate]);
+	}, [next, prev, isChanging, waitForAnimation]);
 
 	useEffect(() => {
-		if (!shouldAutoRotate || isInteracting || !isTabActive) return;
+		if (!shouldAutoRotate || isInteracting || !isTabActive || isChanging)
+			return;
+
 		const intervalId = setInterval(next, autoRotationDelay);
 
 		return () => clearInterval(intervalId);
-	}, [next, shouldAutoRotate, autoRotationDelay, isInteracting, isTabActive]);
+	}, [
+		next,
+		shouldAutoRotate,
+		autoRotationDelay,
+		isInteracting,
+		isTabActive,
+		isChanging,
+	]);
 
 	return {
 		selectedIndex,
@@ -153,8 +175,8 @@ export default function use3DCarousel({
 		normalizeIndex,
 		updateSelectedIndex: (i: number) => setSelectedIndex(i),
 		updateRotationIndex,
-		next,
-		prev,
+		handleShowNextSlide,
+		handleShowPrevSlide,
 		handleInteractionStart,
 		handleInteractionEnd,
 	};
