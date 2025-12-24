@@ -8,6 +8,7 @@ import {
 	useState,
 } from "react";
 import { useSwipeable } from "react-swipeable";
+import { useTabVisibility } from "./use-tab-visibility";
 
 const MAX_DRAG_PX = 120;
 
@@ -32,7 +33,8 @@ export default function use3DCarousel({
 	const [dragRotation, setDragRotation] = useState(0);
 	const [isChanging, setIsChanging] = useState(false);
 	const [isInteracting, setIsInteracting] = useState(false);
-	const [isTabActive, setIsTabActive] = useState(true);
+
+	const isTabActive = useTabVisibility();
 
 	const len = useMemo(() => totalSlides, [totalSlides]);
 	const theta = useMemo(() => 360 / len, [len]);
@@ -41,16 +43,20 @@ export default function use3DCarousel({
 		(index: number) => ((index % len) + len) % len,
 		[len],
 	);
-
-	const getContainerStyle = () =>
-		({
-			transform: `
-			translateZ(calc(${radius} * -1))
-			rotateX(${xTilt}deg)
-			rotateY(${-(rotationIndex * theta + dragRotation)}deg)
-	`,
-		}) as CSSProperties;
-
+	const next = useCallback(() => {
+		setRotationIndex((r) => r + 1);
+		setSelectedIndex((i) => normalizeIndex(i + 1));
+	}, [normalizeIndex]);
+	const prev = useCallback(() => {
+		setRotationIndex((r) => r - 1);
+		setSelectedIndex((i) => normalizeIndex(i - 1));
+	}, [normalizeIndex]);
+	const handleInteractionStart = () => {
+		setIsInteracting(true);
+	};
+	const handleInteractionEnd = () => {
+		setIsInteracting(false);
+	};
 	const getSlideStyle = useCallback(
 		(index: number): CSSProperties => {
 			return {
@@ -59,23 +65,14 @@ export default function use3DCarousel({
 		},
 		[theta, radius],
 	);
-
-	const next = useCallback(() => {
-		setRotationIndex((r) => r + 1);
-		setSelectedIndex((i) => normalizeIndex(i + 1));
-	}, [normalizeIndex]);
-
-	const prev = useCallback(() => {
-		setRotationIndex((r) => r - 1);
-		setSelectedIndex((i) => normalizeIndex(i - 1));
-	}, [normalizeIndex]);
-
-	const handleInteractionStart = () => {
-		setIsInteracting(true);
-	};
-	const handleInteractionEnd = () => {
-		setIsInteracting(false);
-	};
+	const getContainerStyle = () =>
+		({
+			transform: `
+			translateZ(calc(${radius} * -1))
+			rotateX(${xTilt}deg)
+			rotateY(${-(rotationIndex * theta + dragRotation)}deg)
+	`,
+		}) as CSSProperties;
 
 	const handlers = useSwipeable({
 		trackMouse: true,
@@ -114,22 +111,8 @@ export default function use3DCarousel({
 	};
 
 	useEffect(() => {
-		const handleVisibilityChange = () => {
-			if (document.hidden) {
-				setIsTabActive(false);
-			} else {
-				setIsTabActive(true);
-			}
-		};
+		if (!shouldAutoRotate || isChanging) return;
 
-		document.addEventListener("visibilitychange", handleVisibilityChange);
-
-		return () => {
-			document.removeEventListener("visibilitychange", handleVisibilityChange);
-		};
-	}, []);
-
-	useEffect(() => {
 		const waitForAnimation = () => {
 			setIsChanging(true);
 
@@ -141,7 +124,6 @@ export default function use3DCarousel({
 		};
 
 		const handleKeyPress = (e: KeyboardEvent) => {
-			if (isChanging) return;
 			waitForAnimation();
 
 			if (e.key === "ArrowRight") return next();
@@ -153,7 +135,7 @@ export default function use3DCarousel({
 		return () => {
 			document.removeEventListener("keydown", handleKeyPress);
 		};
-	}, [next, prev, isChanging, animationDuration]);
+	}, [next, prev, isChanging, animationDuration, shouldAutoRotate]);
 
 	useEffect(() => {
 		if (!shouldAutoRotate || isInteracting || !isTabActive) return;
