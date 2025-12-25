@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Locale } from "payload";
 import { cn } from "~/lib/utils";
 
@@ -8,7 +7,7 @@ export default function LocaleSwitcher({ locales, activeLocale }: Props) {
 		<ul className="flex items-center overflow-hidden rounded-md md:flex-col">
 			{locales.map(({ code }) => (
 				<li key={code}>
-					<Link
+					<a
 						className={cn(
 							"flex aspect-square h-9 w-9 items-center justify-center border text-center",
 							{
@@ -19,7 +18,7 @@ export default function LocaleSwitcher({ locales, activeLocale }: Props) {
 						href={`/?locale=${code}`}
 					>
 						{code}
-					</Link>
+					</a>
 				</li>
 			))}
 		</ul>
